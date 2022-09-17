@@ -6,7 +6,7 @@ Usage
 Installation
 ------------
 
-To use Chronostar, first clone from `github repo <https://github.com/mikeireland/chronostar/`_.
+To use Chronostar, first clone from the `github repo <https://github.com/mikeireland/chronostar/>`_.
 
 .. code-block:: console
 

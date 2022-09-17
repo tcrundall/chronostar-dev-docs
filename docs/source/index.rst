@@ -16,10 +16,15 @@ Check out the :doc:`usage` section for further information, including how to :re
    This project is under active development
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
    usage
+   driver
+   initialconditionsgenerator
+   model
+   uncertaintyfinder
+
 
 Indices and tables
 ==================
