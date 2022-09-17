@@ -2,9 +2,11 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="#" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Model" href="model.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/><title>Search - chronostar-dev 2.0 documentation</title><link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+        <title>Uncertainty Finder - chronostar-dev 2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
@@ -145,19 +147,19 @@
   
   <span class="sidebar-brand-text">chronostar-dev 2.0 documentation</span>
   
-</a><form class="sidebar-search-container" method="get" action="#" role="search">
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="driver.html">Driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="initialconditionsgenerator.html">Initial Conditions Generator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Uncertainty Finder</a></li>
 </ul>
 
 </div>
@@ -191,17 +193,31 @@
           </label>
         </div>
         <article role="main">
-          
-<noscript>
-<div class="admonition error">
-  <p class="admonition-title">Error</p>
-  <p>
-    Please activate JavaScript to enable the search functionality.
-  </p>
+          <div class="section" id="uncertainty-finder">
+<h1>Uncertainty Finder<a class="headerlink" href="#uncertainty-finder" title="Permalink to this heading">#</a></h1>
+<p>Takes a best fit model and finds the uncertainty of the best fitting parameters. This can be expensive, as it is only performed at the very end of the entire run.</p>
+<p>inputs</p>
+<ul class="simple">
+<li><p>config params</p></li>
+<li><p>data</p></li>
+<li><p>best fitting component set</p></li>
+<li><p>[mpi pool]</p></li>
+</ul>
+<p>injected dependencies</p>
+<ul class="simple">
+<li><p>Component Class</p></li>
+<li><p>Background Class</p></li>
+<li><p>Loss function</p></li>
+</ul>
+<p>key public methods</p>
+<ul class="simple">
+<li><p>explore_parameter_space</p></li>
+</ul>
+<p>outputs</p>
+<ul class="simple">
+<li><p>best fit with uncertainties</p></li>
+</ul>
 </div>
-</noscript>
-
-<div id="search-results"></div>
 
         </article>
       </div>
@@ -209,7 +225,17 @@
         
         <div class="related-pages">
           
-          
+          <a class="prev-page" href="model.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Model</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -242,8 +268,5 @@
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
-    
-<script src="_static/searchtools.js"></script>
-<script src="_static/language_data.js"></script>
-<script src="searchindex.js"></script></body>
+    </body>
 </html>
