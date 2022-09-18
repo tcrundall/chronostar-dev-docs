@@ -1,7 +1,9 @@
 Uncertainty Finder
 ==================
 
-Takes a best fit model and finds the uncertainty of the best fitting parameters. This can be expensive, as it is only performed at the very end of the entire run.
+Takes a best fit model and finds the uncertainty of the best fitting 
+parameters. This can be expensive, as it is only performed at the very end of 
+the entire run.
 
 inputs
 

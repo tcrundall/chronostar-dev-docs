@@ -17,7 +17,7 @@ Then do more things
 Performing a fit
 ----------------
 
-To perform a fit to data, you can use the
+This is some placeholder documentation.... To perform a fit to data, you can use the
 ``chronostar.fitfitter.fitfit()`` function:
 
 .. py:function:: chronostar.fitfitter.fitfit(data=None)
