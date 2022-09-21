@@ -156,9 +156,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="driver.html">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialconditionsgenerator.html">Initial Conditions Generator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/baseicpool.html">BaseICPool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inserter/baseinserter.html">BaseInserter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture/model.html">AgedGaussianMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -195,16 +201,38 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a></div>
 </section>
 <section id="_" class="genindex-section">
   <h2>_</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="driver.html#Driver.__init__">__init__() (Driver method)</a>
+        <li><a href="component/basecomponent.html#BaseComponent.__init__">__init__() (BaseComponent method)</a>
 
         <ul>
-          <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.__init__">(InitialConditionsGenerator method)</a>
+          <li><a href="initialconditionspool/baseicpool.html#BaseICPool.__init__">(BaseICPool method)</a>
+</li>
+          <li><a href="inserter/baseinserter.html#BaseInserter.__init__">(BaseInserter method)</a>
+</li>
+          <li><a href="mixture/basemixture.html#ChronBaseMixture.__init__">(ChronBaseMixture method)</a>
+</li>
+          <li><a href="driver.html#Driver.__init__">(Driver method)</a>
+</li>
+          <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.__init__">(InitialConditionsGenerator method)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator.__init__">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="component/basecomponent.html#BaseComponent.attribute1">attribute1 (BaseComponent attribute)</a>
+
+        <ul>
+          <li><a href="mixture/basemixture.html#ChronBaseMixture.attribute1">(ChronBaseMixture attribute)</a>
 </li>
         </ul></li>
     </ul></td>
@@ -215,6 +243,14 @@
   <h2>B</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="component/basecomponent.html#BaseComponent">BaseComponent (built-in class)</a>
+</li>
+        <li><a href="initialconditionspool/baseicpool.html#BaseICPool">BaseICPool (built-in class)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="inserter/baseinserter.html#BaseInserter">BaseInserter (built-in class)</a>
+</li>
         <li>
     built-in function
 
@@ -229,6 +265,10 @@
 <section id="C" class="genindex-section">
   <h2>C</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="mixture/basemixture.html#ChronBaseMixture">ChronBaseMixture (built-in class)</a>
+</li>
+    </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     chronostar.fitfitter.fitfit()
@@ -265,11 +305,21 @@
   <h2>I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.initial_conditions">initial_conditions() (InitialConditionsGenerator method)</a>
+        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.initial_conditions">initial_conditions() (InitialConditionsGenerator method)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator.initial_conditions">[1]</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator">InitialConditionsGenerator (built-in class)</a>
+        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator">InitialConditionsGenerator (built-in class)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator">[1]</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="inserter/baseinserter.html#BaseInserter.next_gen">next_gen() (BaseInserter method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -279,11 +329,17 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.pars_registry">pars_registry (InitialConditionsGenerator attribute)</a>
+        <li><a href="initialconditionspool/baseicpool.html#BaseICPool.pars_registry">pars_registry (BaseICPool attribute)</a>
+
+        <ul>
+          <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.pars_registry">(InitialConditionsGenerator attribute)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator.pars_registry">[1]</a>
 </li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="model.html#SpaceTimeMixture.placeholderMethod">placeholderMethod() (SpaceTimeMixture method)</a>
+        <li><a href="mixture/model.html#SpaceTimeMixture.placeholderMethod">placeholderMethod() (SpaceTimeMixture method)</a>, <a href="model.html#SpaceTimeMixture.placeholderMethod">[1]</a>
+</li>
+        <li><a href="initialconditionspool/baseicpool.html#BaseICPool.pool">pool() (BaseICPool method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -293,8 +349,12 @@
   <h2>R</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.register_result">register_result() (InitialConditionsGenerator method)</a>
+        <li><a href="initialconditionspool/baseicpool.html#BaseICPool.register_result">register_result() (BaseICPool method)</a>
+
+        <ul>
+          <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.register_result">(InitialConditionsGenerator method)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator.register_result">[1]</a>
 </li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="driver.html#Driver.run">run() (Driver method)</a>
@@ -307,11 +367,27 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.score_registry">score_registry (InitialConditionsGenerator attribute)</a>
+        <li><a href="initialconditionspool/baseicpool.html#BaseICPool.score_registry">score_registry (BaseICPool attribute)</a>
+
+        <ul>
+          <li><a href="initialconditionsgenerator.html#InitialConditionsGenerator.score_registry">(InitialConditionsGenerator attribute)</a>, <a href="initialconditionspool/initialconditionsgenerator.html#InitialConditionsGenerator.score_registry">[1]</a>
 </li>
+        </ul></li>
+        <li><a href="component/basecomponent.html#BaseComponent.some_abstract_method">some_abstract_method() (BaseComponent method)</a>
+
+        <ul>
+          <li><a href="mixture/basemixture.html#ChronBaseMixture.some_abstract_method">(ChronBaseMixture method)</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="model.html#SpaceTimeMixture">SpaceTimeMixture (built-in class)</a>
+        <li><a href="component/basecomponent.html#BaseComponent.some_method">some_method() (BaseComponent method)</a>
+
+        <ul>
+          <li><a href="mixture/basemixture.html#ChronBaseMixture.some_method">(ChronBaseMixture method)</a>
+</li>
+        </ul></li>
+        <li><a href="mixture/model.html#SpaceTimeMixture">SpaceTimeMixture (built-in class)</a>, <a href="model.html#SpaceTimeMixture">[1]</a>
 </li>
     </ul></td>
   </tr></table>

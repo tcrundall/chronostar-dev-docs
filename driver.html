@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Initial Conditions Generator" href="initialconditionsgenerator.html" /><link rel="prev" title="Usage" href="usage.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="AgedGaussianMixture" href="model.html" /><link rel="prev" title="Usage" href="usage.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
         <title>Driver - chronostar-dev 2.0 documentation</title>
@@ -157,9 +157,15 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialconditionsgenerator.html">Initial Conditions Generator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/baseicpool.html">BaseICPool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inserter/baseinserter.html">BaseInserter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture/model.html">AgedGaussianMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -211,10 +217,10 @@ handle the management of MPIPool processes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config_file</strong> (<em>str</em>) – A yaml file that contains the configuration parameters for <cite>Driver</cite> and all the other classes.</p></li>
-<li><p><strong>component_class</strong> (<em>subclass</em><em>(</em><em>BaseComponent</em><em>)</em>) – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
+<li><p><strong>component_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="component/basecomponent.html#BaseComponent" title="BaseComponent"><em>BaseComponent</em></a><em>)</em>) – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
 <li><p><strong>model_class</strong> (<em>subclass</em><em>(</em><em>sklearn.mixture.BaseMixture</em><em>)</em>) – A Class that either inherits from BaseModel or matches the interface exactly. This Class encapsulates the parameterisation of the entire model as well as it’s fitting method.</p></li>
 <li><p><strong>icg_class</strong> (<em>subclass</em><em>(</em><em>BaseICG</em><em>)</em>) – A Class that either inherits from BaseICG or matches the interface exactly. This Class manages the generation of the <cite>model_class</cite>’s initial conditions.</p></li>
-<li><p><strong>inserter_class</strong> (<em>subclass</em><em>(</em><em>BaseInserter</em><em>)</em>) – A Class that either inherits from BaseInserter or matches the interface exactly. This Class handles the initialisation of the next set of models. For example, if we have just fit a collection of models with N components, <cite>inserter_class</cite> will generate a set of initial conditions for <cite>N+1</cite> components.</p></li>
+<li><p><strong>inserter_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="inserter/baseinserter.html#BaseInserter" title="BaseInserter"><em>BaseInserter</em></a><em>)</em>) – A Class that either inherits from BaseInserter or matches the interface exactly. This Class handles the initialisation of the next set of models. For example, if we have just fit a collection of models with N components, <cite>inserter_class</cite> will generate a set of initial conditions for <cite>N+1</cite> components.</p></li>
 <li><p><strong>uncertaintyfinder_class</strong> (<em>sublcass</em><em>(</em><em>BaseUncertaintyFinder</em><em>)</em>) – A Class that either inherits from BaseUncertaintyFinder or matches the interface exactly. Once the final best fit is found, this Class explores the parameter space and returns uncertanties for each of the best fit parameters.</p></li>
 </ul>
 </dd>
@@ -337,12 +343,12 @@ script.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="initialconditionsgenerator.html">
+          <a class="next-page" href="model.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Initial Conditions Generator</div>
+                <div class="title">AgedGaussianMixture</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
