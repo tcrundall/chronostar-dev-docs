@@ -42,12 +42,17 @@ to :ref:`install <installation>` the project.
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
+   :glob:
 
    usage
    driver
-   initialconditionsgenerator
    model
    uncertaintyfinder
+   initialconditionspool/*
+   inserter/*
+   mixture/*
+   component/*
+   background/*
 
 
 Indices and tables
