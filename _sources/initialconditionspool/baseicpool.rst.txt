@@ -10,7 +10,7 @@ These objects manage a pool of initial conditions which :class:`Model` uses to i
 
     A pool (or priority queue?) of initial conditions that can be used to initialise model fits.
 
-    Calling :method:`pool` returns an iterator that can be iterated over, yielding a set of initial conditions. By registering the result of each fit with the :method:`register_result`, ICPool can use this information to generate the next set of initial conditions
+    Calling :func:`~BaseICPool.pool` returns an iterator that can be iterated over, yielding a set of initial conditions. By registering the result of each fit with the :func:`~BaseICPool.register_result`, ICPool can use this information to generate the next set of initial conditions.
 
     :param component_class: A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.
     :type Component: subclass(BaseComponent)

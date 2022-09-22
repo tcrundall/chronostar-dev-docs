@@ -1,8 +1,11 @@
-AgedGaussianMixture
-===================
+================
+ComponentMixture
+================
 
 Ideally extends the 
 `BaseMixture class from sklearn <https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py>`_.
+
+I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in :class:`Component` or :class:`BaseICPool`).
 
 To achieve first the **minimal working example**, I propose disregarding data uncertainties completely. RV's are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV's are too large for Chronostar to successfully fit in it's current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.
 
@@ -19,34 +22,8 @@ If we ignore data uncertainties, the age is the only free parameter in the maxim
    pre-construction of star covariance matrices. The typical usage also 
    doesn't expect uncertainties in the data, however this is customizable.
 
-inputs
 
-- config params
-- data
-- [mpi pool]
-
-injected dependencies
-
-- Component Class
-- Background Class
-- Loss function
-
-key public methods:
-
-- fit
-- bic
-
-key private methods:
-
-- is_converged
-- e_step
-- m_step
-
-outputs
-
-- best fit of given model
-
-.. class:: SpaceTimeMixture(n_components=1, *, covariance_type='full', tol=0.001, reg_covar=1e-06, max_iter=100, n_init=1, init_params='kmeans', weights_init=None, means_init=None, precisions_init=None, random_state=None, warm_start=False, verbose=0, verbose_interval=10)
+.. class:: ComponentMixture(n_components=1, *, covariance_type='full', tol=0.001, reg_covar=1e-06, max_iter=100, n_init=1, init_params='kmeans', weights_init=None, means_init=None, precisions_init=None, random_state=None, warm_start=False, verbose=0, verbose_interval=10)
 
    This class both models and fits a Gaussian Mixture Model with time
    dependence. Since the EM algorithm is mighty complicated, we elect 
@@ -54,6 +31,8 @@ outputs
    
    BaseMixture is an abstract class, and so we must implement the missing
    methods.
+
+   For now I've included all :class:`sklearn.mixture.BaseMixture` parameters, but I expect some are superfluous/incompatible to our needs and will be removed.
 
    .. note::
       To ensure that nothing is hidden behind the scenes, I have dumped all the :class:`sklearn.mixture.GaussianMixture` parameters here. Certainly not all of them are required, and I'll whittle the list down over time.
@@ -105,21 +84,26 @@ outputs
    :type verbose_interval: int, default=10
 
 
-   .. method:: placeholderMethod(self, uuids=None)
+   .. method:: _estimate_log_prob(X)
 
-      This documentation here is merely placeholding for syntax.
+      Estimate the log probability of each sample for each component. The components stored in :attr:`components` determine how the estimation is calculated.
 
-      Returns a list of :class:`bluepy.blte.Service` objects representing
-      the services offered by the device. This will perform Bluetooth service
-      discovery if this has not already been done; otherwise it will return a
-      cached list of services immediately..
+      :param X: input data
+      :type X: Array-like (n_samples, n_features)
 
-      :param uuids: A list of string service UUIDs to be discovered,
-         defaults to None
-      :type uuids: list, optional
-      :return: A list of the discovered :class:`bluepy.blte.Service` objects,
-         which match the provided ``uuids``
-      :rtype: list On Python 3.x, this returns a dictionary view object,
-         not a list
+      :return: The log probility of each sample for each component
+      :rtype: Array-like (n_samples, n_components)
 
+      An example implementation could be::
 
+         log_probs = np.zeros((n_samples, n_components))
+         for k, component in enumerate(self.components):
+            log_probs[:, k] = component.estimate_log_prob(X)
+         
+         return log_probs
+
+   .. attribute:: components
+
+      A list of components (and background components) which retain their current best-fit parameters
+
+      :type: List[subclass(BaseComponent) and/or subclass(BaseBackground)]

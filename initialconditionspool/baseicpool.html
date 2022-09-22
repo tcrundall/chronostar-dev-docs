@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Initial Conditions Generator" href="initialconditionsgenerator.html" /><link rel="prev" title="Uncertainty Finder" href="../uncertaintyfinder.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Simple IC Pool" href="initialconditionsgenerator.html" /><link rel="prev" title="Uncertainty Finder" href="../uncertaintyfinder.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
         <title>BaseICPool - chronostar-dev 2.0 documentation</title>
@@ -157,13 +157,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../driver.html">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialconditionsgenerator.html">Simple IC Pool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../mixture/model.html">AgedGaussianMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mixture/componentmixture.html">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/basebackground.html">BaseBackground</a></li>
 </ul>
@@ -207,7 +206,7 @@ These objects manage a pool of initial conditions which <code class="xref py py-
 <dt class="sig sig-object py" id="BaseICPool">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BaseICPool</span></span><a class="headerlink" href="#BaseICPool" title="Permalink to this definition">#</a></dt>
 <dd><p>A pool (or priority queue?) of initial conditions that can be used to initialise model fits.</p>
-<p>Calling <a href="#id1"><span class="problematic" id="id2">:method:`pool`</span></a> returns an iterator that can be iterated over, yielding a set of initial conditions. By registering the result of each fit with the <a href="#id3"><span class="problematic" id="id4">:method:`register_result`</span></a>, ICPool can use this information to generate the next set of initial conditions</p>
+<p>Calling <a class="reference internal" href="#BaseICPool.pool" title="BaseICPool.pool"><code class="xref py py-func docutils literal notranslate"><span class="pre">pool()</span></code></a> returns an iterator that can be iterated over, yielding a set of initial conditions. By registering the result of each fit with the <a class="reference internal" href="#BaseICPool.register_result" title="BaseICPool.register_result"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_result()</span></code></a>, ICPool can use this information to generate the next set of initial conditions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -287,7 +286,7 @@ These objects manage a pool of initial conditions which <code class="xref py py-
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Initial Conditions Generator</div>
+                <div class="title">Simple IC Pool</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

@@ -157,13 +157,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../driver.html">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Simple IC Pool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../mixture/model.html">AgedGaussianMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mixture/componentmixture.html">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">BaseBackground</a></li>
 </ul>
@@ -201,7 +200,37 @@
         <article role="main">
           <div class="section" id="basebackground">
 <h1>BaseBackground<a class="headerlink" href="#basebackground" title="Permalink to this heading">#</a></h1>
-<p>Abstract base class for Backgrounds</p>
+<p>Abstract base class for Backgrounds. The objects (along with <a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> objects) serve as building blocks for a <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMixture</span></code>. These objects encapsulate their parametrisation and log probabilty calculation of samples. Ideally <a class="reference internal" href="#BaseBackground" title="BaseBackground"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBackground</span></code></a> components describe the “field” stars.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="BaseBackground">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BaseBackground</span></span><a class="headerlink" href="#BaseBackground" title="Permalink to this definition">#</a></dt>
+<dd><p>An abstract class that describes a single, time-independent component of a mixture model.</p>
+<p>A Background Class is responsible for calculating its loss given a set of data points and responsibilities.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="BaseBackground.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseBackground.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Constructor method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="BaseBackground.estimate_log_prob">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BaseBackground.estimate_log_prob" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate the log probability of each sample given the background component. If the background component is a simple Gaussian, this method would evaluate the Gaussian at the position of the sample. The features and how a component interprets them are unrestricted. Age, chemical composition etc. can all be in the feature, and this method determines how the component treats them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – Input data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>log probabilities of each sample</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Array-like(n_samples)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
         </article>

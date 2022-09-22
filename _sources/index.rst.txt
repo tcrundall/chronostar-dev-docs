@@ -46,7 +46,6 @@ to :ref:`install <installation>` the project.
 
    usage
    driver
-   model
    uncertaintyfinder
    initialconditionspool/*
    inserter/*

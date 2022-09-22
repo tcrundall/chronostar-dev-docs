@@ -1,5 +1,5 @@
 ============================
-Initial Conditions Generator
+Simple IC Pool
 ============================
 
 Manages the generation of each generation of initial conditions, based on 
@@ -24,7 +24,7 @@ injected dependencies:
 
 The interface is defined as follows:
 
-.. class:: InitialConditionsGenerator
+.. class:: SimpleICPool(BaseICPool)
 
     The top level driver that manages the overall fit to data, accounting for
     high-level parameters, such as number of components. It also (ideally) will 

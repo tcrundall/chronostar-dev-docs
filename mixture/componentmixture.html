@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="BaseComponent" href="../component/basecomponent.html" /><link rel="prev" title="ChronBaseMixture" href="basemixture.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>AgedGaussianMixture - chronostar-dev 2.0 documentation</title>
+        <title>ComponentMixture - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -157,13 +157,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../driver.html">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Simple IC Pool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">AgedGaussianMixture</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/basebackground.html">BaseBackground</a></li>
 </ul>
@@ -199,10 +198,11 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="agedgaussianmixture">
-<h1>AgedGaussianMixture<a class="headerlink" href="#agedgaussianmixture" title="Permalink to this heading">#</a></h1>
+          <div class="section" id="componentmixture">
+<h1>ComponentMixture<a class="headerlink" href="#componentmixture" title="Permalink to this heading">#</a></h1>
 <p>Ideally extends the
 <a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py">BaseMixture class from sklearn</a>.</p>
+<p>I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="../initialconditionspool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
 <p>To achieve first the <strong>minimal working example</strong>, I propose disregarding data uncertainties completely. RV’s are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV’s are too large for Chronostar to successfully fit in it’s current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.</p>
 <p>If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider fixing the age at 0. In this case we could use <cite>sklearn.mixture.GaussianMixture</cite> out of the box. There is no parameter exploration needed, because the maximisation step calculates the mean and covariance from the “assigned members” (a.k.a. samples of responsibility(?)).</p>
 <p><cite>AgedGaussianMixture</cite> introduces a free age parameter for each of its components. The key remaining <strong>dependent</strong> parameters of a component are <span class="math notranslate nohighlight">\(\mu_0\)</span> and <span class="math notranslate nohighlight">\(\Sigma_0\)</span>. <span class="math notranslate nohighlight">\(\mu_0\)</span> is constrained completely by the age and data, since we just project <span class="math notranslate nohighlight">\(\mu\)</span> back in time by <span class="math notranslate nohighlight">\(t\)</span>. <span class="math notranslate nohighlight">\(\Sigma_0\)</span> is less apparent, but with some assumptions can be equally constrained. We get <span class="math notranslate nohighlight">\(\Sigma\)</span> from the assigned members. We project this back in time by <span class="math notranslate nohighlight">\(t\)</span> using a Jacobian. We now have a <span class="math notranslate nohighlight">\(~\Sigma_0\)</span>. The final step is to impose the core assumptions of a Component - that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class. E.g. for the <code class="xref py py-class docutils literal notranslate"><span class="pre">SphereComponent</span></code> we assume spherical in position space and spherical in velocity space. Therefore in this case we can derive <span class="math notranslate nohighlight">\(\Sigma_0\)</span> by finding the total space-volume of <span class="math notranslate nohighlight">\(~\Sigma_0\)</span> and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.</p>
@@ -217,41 +217,15 @@
 pre-construction of star covariance matrices. The typical usage also
 doesn’t expect uncertainties in the data, however this is customizable.</p>
 </div>
-<p>inputs</p>
-<ul class="simple">
-<li><p>config params</p></li>
-<li><p>data</p></li>
-<li><p>[mpi pool]</p></li>
-</ul>
-<p>injected dependencies</p>
-<ul class="simple">
-<li><p>Component Class</p></li>
-<li><p>Background Class</p></li>
-<li><p>Loss function</p></li>
-</ul>
-<p>key public methods:</p>
-<ul class="simple">
-<li><p>fit</p></li>
-<li><p>bic</p></li>
-</ul>
-<p>key private methods:</p>
-<ul class="simple">
-<li><p>is_converged</p></li>
-<li><p>e_step</p></li>
-<li><p>m_step</p></li>
-</ul>
-<p>outputs</p>
-<ul class="simple">
-<li><p>best fit of given model</p></li>
-</ul>
 <dl class="py class">
-<dt class="sig sig-object py" id="SpaceTimeMixture">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SpaceTimeMixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kmeans'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">means_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precisions_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeMixture" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="ComponentMixture">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ComponentMixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_covar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kmeans'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">means_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precisions_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ComponentMixture" title="Permalink to this definition">#</a></dt>
 <dd><p>This class both models and fits a Gaussian Mixture Model with time
 dependence. Since the EM algorithm is mighty complicated, we elect
 to follow the design laid out by <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.mixture.BaseMixture</span></code>.</p>
 <p>BaseMixture is an abstract class, and so we must implement the missing
 methods.</p>
+<p>For now I’ve included all <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.mixture.BaseMixture</span></code> parameters, but I expect some are superfluous/incompatible to our needs and will be removed.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To ensure that nothing is hidden behind the scenes, I have dumped all the <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.mixture.GaussianMixture</span></code> parameters here. Certainly not all of them are required, and I’ll whittle the list down over time.</p>
@@ -298,25 +272,37 @@ methods.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="SpaceTimeMixture.placeholderMethod">
-<span class="sig-name descname"><span class="pre">placeholderMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeMixture.placeholderMethod" title="Permalink to this definition">#</a></dt>
-<dd><p>This documentation here is merely placeholding for syntax.</p>
-<p>Returns a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">bluepy.blte.Service</span></code> objects representing
-the services offered by the device. This will perform Bluetooth service
-discovery if this has not already been done; otherwise it will return a
-cached list of services immediately..</p>
+<dt class="sig sig-object py" id="ComponentMixture._estimate_log_prob">
+<span class="sig-name descname"><span class="pre">_estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ComponentMixture._estimate_log_prob" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate the log probability of each sample for each component. The components stored in <a class="reference internal" href="#ComponentMixture.components" title="ComponentMixture.components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">components</span></code></a> determine how the estimation is calculated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – A list of string service UUIDs to be discovered,
-defaults to None</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>Array-like</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – input data</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of the discovered <code class="xref py py-class docutils literal notranslate"><span class="pre">bluepy.blte.Service</span></code> objects,
-which match the provided <code class="docutils literal notranslate"><span class="pre">uuids</span></code></p>
+<dd class="field-even"><p>The log probility of each sample for each component</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list On Python 3.x, this returns a dictionary view object,
-not a list</p>
+<dd class="field-odd"><p>Array-like (n_samples, n_components)</p>
+</dd>
+</dl>
+<p>An example implementation could be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_components</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+   <span class="n">log_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">return</span> <span class="n">log_probs</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ComponentMixture.components">
+<span class="sig-name descname"><span class="pre">components</span></span><a class="headerlink" href="#ComponentMixture.components" title="Permalink to this definition">#</a></dt>
+<dd><p>A list of components (and background components) which retain their current best-fit parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[subclass(<a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent">BaseComponent</a>) and/or subclass(<a class="reference internal" href="../background/basebackground.html#BaseBackground" title="BaseBackground">BaseBackground</a>)]</p>
 </dd>
 </dl>
 </dd></dl>

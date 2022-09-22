@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="AgedGaussianMixture" href="model.html" /><link rel="prev" title="BaseInserter" href="../inserter/baseinserter.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="ComponentMixture" href="componentmixture.html" /><link rel="prev" title="BaseInserter" href="../inserter/baseinserter.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
         <title>ChronBaseMixture - chronostar-dev 2.0 documentation</title>
@@ -157,13 +157,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../driver.html">Driver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../model.html">AgedGaussianMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Initial Conditions Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Simple IC Pool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="model.html">AgedGaussianMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="componentmixture.html">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/basebackground.html">BaseBackground</a></li>
 </ul>
@@ -201,16 +200,21 @@
         <article role="main">
           <div class="section" id="chronbasemixture">
 <h1>ChronBaseMixture<a class="headerlink" href="#chronbasemixture" title="Permalink to this heading">#</a></h1>
-<p>Our base mixture inherits from sklearn.mixture.basemixture. <a class="reference internal" href="#ChronBaseMixture" title="ChronBaseMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChronBaseMixture</span></code></a> is a linear combination of <a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBackground</span></code>.</p>
+<p>Our base mixture inherits from sklearn.mixture.basemixture. <a class="reference internal" href="#ChronBaseMixture" title="ChronBaseMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChronBaseMixture</span></code></a> is a linear combination of <a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> and <a class="reference internal" href="../background/basebackground.html#BaseBackground" title="BaseBackground"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBackground</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I don’t think we need an abstract ChronBaseMixture. I think it will be sufficient to directly reify <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.mixture.BaseMixture</span></code>. See <a class="reference internal" href="componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a>.</p>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="ChronBaseMixture">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChronBaseMixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sklearn.mixture.basemixture</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ChronBaseMixture" title="Permalink to this definition">#</a></dt>
 <dd><p>A mixture model of arbitrary components. This model encapsulates the parameters of the model and the methods which perform the fit.</p>
+<p>The key methods that children classes of <a class="reference internal" href="#ChronBaseMixture" title="ChronBaseMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChronBaseMixture</span></code></a> must implement are <code class="xref py py-func docutils literal notranslate"><span class="pre">initialize()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">_estimate_log_prob()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Component</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><em>BaseComponent</em></a><em>)</em>) – Class of Component which describe the data points. Typically time dependent, 6D gaussians.</p></li>
-<li><p><strong>Background</strong> (<em>subclass</em><em>(</em><em>BaseBackground</em><em>)</em>) – Class of Background which describe the “background” data points.</p></li>
+<li><p><strong>Background</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="../background/basebackground.html#BaseBackground" title="BaseBackground"><em>BaseBackground</em></a><em>)</em>) – Class of Background which describe the “background” data points.</p></li>
 </ul>
 </dd>
 </dl>
@@ -265,12 +269,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="model.html">
+          <a class="next-page" href="componentmixture.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">AgedGaussianMixture</div>
+                <div class="title">ComponentMixture</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
