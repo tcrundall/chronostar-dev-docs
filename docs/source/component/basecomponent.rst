@@ -2,10 +2,7 @@
 BaseComponent
 =============
 
-Abstract base class for Components
-
-The abstract base class for initial conditions pool objects.
-These objects manage a pool of initial conditions which :class:`Model` uses to initialise a fit.
+Abstract base class for Components. These objects serve as building blocks of a :class:`BaseMixture`. A Component encapsulates its parameterisation and log probability estimation of samples. A Component will ideally map onto real stellar associations.
 
 
 .. class:: BaseComponent
@@ -18,26 +15,14 @@ These objects manage a pool of initial conditions which :class:`Model` uses to i
 
         Constructor method
 
-
-    .. attribute:: attribute1
-
-        Some attribute
-
-        :type: attribute type
-
-    .. method:: some_abstract_method()
+    .. method:: estimate_log_prob(X)
         :abstractmethod:
 
-        Describe method
+        Estimate the log probability of each sample given the component. If the component is a simple Gaussian, this method would evaluate the Gaussian at the position of the sample. The features and how a component interprets them are unrestricted. Age, chemical composition etc. can all be in the feature, and this method determines how the component treats them.
 
-        :return: Describe return object
-        :rtype: generator
+        :param X: Input data
+        :type Array-like(n_samples, n_features):
 
-    .. method:: some_method(param1)
-
-        Describe some_method
-
-        :param param1: describe param1
-        :type param1: int
-
+        :return: log probabilities of each sample
+        :rtype: Array-like(n_samples)
 
