@@ -34,7 +34,7 @@ A rough usage could look like this::
         uncertaintyfinder_class=UncertaintyFinder,
     )
 
-    driver.fit(data)
+    driver.run(data)
 
 Note that we pass classes (and not objects) to the driver when initialising it.
 This is an example of `dependency injection <https://en.wikipedia.org/wiki/Dependency_injection>`_ and has the consequence that Driver

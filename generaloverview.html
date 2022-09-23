@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Driver Guide" href="driverguide.html" /><link rel="prev" title="Welcome to chronostar-dev’s documentation!" href="index.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>Usage - chronostar-dev 2.0 documentation</title>
+        <title>General Overview - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,7 +155,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">General Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="driverguide.html">Driver Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
 </ul>
@@ -218,37 +218,28 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
-<div class="section" id="chronostar-installation">
-<span id="installation"></span><h2>Chronostar Installation<a class="headerlink" href="#chronostar-installation" title="Permalink to this heading">#</a></h2>
-<p>To use Chronostar, first clone from the <a class="reference external" href="https://github.com/mikeireland/chronostar/">github repo</a>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/mikeireland/chronostar/
-</pre></div>
+          <div class="section" id="general-overview">
+<h1>General Overview<a class="headerlink" href="#general-overview" title="Permalink to this heading">#</a></h1>
+<div class="section" id="chronostar-the-next-generation">
+<h2>Chronostar: The Next Generation<a class="headerlink" href="#chronostar-the-next-generation" title="Permalink to this heading">#</a></h2>
+<p>The next generation of Chronostar prioritises simplicity, flexibility and extensibility. The default behaviour address the most simple scenario but the means of extending the capabilties for more complex scenarios is straight forward; by default Chronostar-TNG (will) provide abstract base classes which clearly dictate required interfaces as well as many different example reifications for the most basic scenarios. How one actually extends these example implementations to address complex scenarios is left to the user. ;)</p>
+<p>The framework of Chronostar TNG consists of 5 classes. A <a class="reference internal" href="driverguide.html"><span class="doc">Driver</span></a>, a <a class="reference internal" href="icpoolguide.html"><span class="doc">Initial Conditions Pool</span></a>, an <a class="reference internal" href="introducerguide.html"><span class="doc">Introducer</span></a>, a <a class="reference internal" href="mixtureguide.html"><span class="doc">Mixture</span></a> and a <a class="reference internal" href="componentguide.html"><span class="doc">Component</span></a>.</p>
+<a class="reference internal image-reference" href="images/simple_snapshot.svg"><img alt="A graphical representation of how the classes connect." src="images/simple_snapshot.svg" width="800" /></a>
+<p>Here we provide a <a class="reference internal" href="#"><span class="doc">general overview</span></a> of the framework.</p>
+<p>The <a class="reference internal" href="driverguide.html"><span class="doc">Driver</span></a> is the top level manager of the entire process. It parses the config file, instantiates classes where appropriate, passes on the initialization parameters as necessary, and then runs the primary loop.
+The primary loop is only 4 lines long because the majority of the work is neatly delegated to the other classes. In a multiprocessor implementation, the Driver would also manage the MPI Pool.</p>
+<p>The <a class="reference internal" href="icpoolguide.html"><span class="doc">Initial Conditions Pool</span></a> or <em>ICPool</em> serves as (perhaps surprisingly) a pool of initial conditions. An ICPool generates set after set of plausible initial conditions. An initial conditions set is a list of <a class="reference internal" href="componentguide.html"><span class="doc">Components</span></a>. For each set of initial conditions the <cite>Driver</cite> initializes a <a class="reference internal" href="mixtureguide.html"><span class="doc">Mixture Model</span></a> (Gaussian or otherwise). The Mixture Model fits itself to the data by maximizing the parameters of its list of <cite>Components</cite>. Once fit the Mixture Model calculates its final score (AIC, BIC, etc.). The <cite>Driver</cite> registers each fit to the <cite>ICPool</cite> along with its score. The primary loop repeats and the Driver acquires the next set of initial conditions. When the <cite>ICPool</cite> runs out of plausible initial conditions, the primary loop ends and the <cite>Driver</cite> returns the best fit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The interaction between Driver and ICPool lends itself well to parallelisation, an aspect sorely lacking in the original Chronostar. The number of processes that can fit a mixture model in parallel is only capped by the number of sets of initial conditions sitting in the ICPool.</p>
 </div>
-<p>Then do more things</p>
+<p>Lets explore how the <cite>ICPool</cite> cultivates this pool of initial conditions and determines when to trigger an end to the primary loop. The <cite>ICPool</cite> builds up a <em>registry</em> of previous fits and their scores as registered by the <cite>Driver</cite>. The <cite>ICPool</cite> generates the next initial conditions based on this registry, perhaps by introducing one ore more extra components. The precise mechanism by which the <cite>ICPool</cite> introduces <cite>Components</cite> is determined by the <a class="reference internal" href="introducerguide.html"><span class="doc">Introducer</span></a>. The <cite>Introducer</cite> takes one or more previous fits, and returns one or more plausible sets of initial conditions to the <cite>ICPool</cite>. The <cite>ICPool</cite> in turn <em>yields</em> each set to the <cite>Driver</cite>. By using the keyword <em>yield</em> we’ve turned <cite>ICPool</cite> (or more precisely one of its methods) into an iterable object which can be looped over. By inspecting the scores in the registry, the <cite>ICPool</cite> can determine when scores are conisitently failing to improve. At this point the <cite>ICPool</cite> stops yielding which triggers a <code class="docutils literal notranslate"><span class="pre">Stop</span> <span class="pre">Iteration</span></code> exception, thereby ending the primary loop.</p>
+<p>Lets focus now on how a Mixture Model fits itself to the data. We acknowledge the expert craftspersonship of <cite>sklearn.mixture.GaussianMixture</cite> and so our Mixture Models follow their interface closely, with our example implementation even inheriting from <cite>sklearn.mixture.BaseMixture</cite>. Our Mixture Model expects the inputdata to be array-like of floats. The Mixture Model runs an Expectation-Maximization (EM) algorithm on the data and its list of Components. The interesting parts of the EM algorithm (how the various features in the data is interpreted, how the Component parameters are maximized) are delegated to the Components themselves. The Mixture Model handles only the boring, tedious, delicate business of membership probabilities and EM convergence. It is unlikely the user will need to write their own Mixture Model.</p>
+<p>The Component class is where the most variation will likely appear. The Component implementation determines what features we’re fitting to, and how we find the best parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO: Finish this section…</p>
 </div>
-<div class="section" id="performing-a-fit">
-<h2>Performing a fit<a class="headerlink" href="#performing-a-fit" title="Permalink to this heading">#</a></h2>
-<p>This is some placeholder documentation…. To perform a fit to data, you can use the
-<code class="docutils literal notranslate"><span class="pre">chronostar.fitfitter.fitfit()</span></code> function:</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="chronostar.fitfitter.fitfit">
-<span class="sig-prename descclassname"><span class="pre">chronostar.fitfitter.</span></span><span class="sig-name descname"><span class="pre">fitfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chronostar.fitfitter.fitfit" title="Permalink to this definition">#</a></dt>
-<dd><p>Gets the best fit to the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>astropy.table.Table</em><em> or </em><em>None</em>) – Optional input “data”.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The best fit</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[Component]</p>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 </div>
 
@@ -309,9 +300,8 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Usage</a><ul>
-<li><a class="reference internal" href="#chronostar-installation">Chronostar Installation</a></li>
-<li><a class="reference internal" href="#performing-a-fit">Performing a fit</a></li>
+<li><a class="reference internal" href="#">General Overview</a><ul>
+<li><a class="reference internal" href="#chronostar-the-next-generation">Chronostar: The Next Generation</a></li>
 </ul>
 </li>
 </ul>
