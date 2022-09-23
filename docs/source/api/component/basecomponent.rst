@@ -26,3 +26,12 @@ Abstract base class for Components. These objects serve as building blocks of a 
         :return: log probabilities of each sample
         :rtype: Array-like(n_samples)
 
+    .. method:: maximize(X, log_resp)
+
+        Find the best parameters given data `X` and log responsibilities (or membership probabilities).
+
+        :param X: Input data
+        :type X: array-like of shape (n_samples, n_features)
+        :param log_resp: Log of posterior probabilities of the point of each sample in `X`
+        :type log_resp: array-like of shape (n_samples)
+
