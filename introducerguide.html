@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Usage" href="usage.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="BaseIntroudcer" href="api/introducer/baseintroducer.html" /><link rel="prev" title="SimpleICPool" href="api/icpool/simpleicpool.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>chronostar-dev 2.0 documentation</title>
+        <title>Introducer Guide - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">chronostar-dev 2.0 documentation</div></a>
+      <a href="index.html"><div class="brand">chronostar-dev 2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -142,7 +142,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
   <span class="sidebar-brand-text">chronostar-dev 2.0 documentation</span>
@@ -154,7 +154,7 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="driverguide.html">Driver Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
@@ -165,7 +165,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/icpool/simpleicpool.html">SimpleICPool</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="introducerguide.html">Introducer Guide</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Introducer Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/introducer/baseintroducer.html">BaseIntroudcer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
@@ -211,83 +211,76 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="welcome-to-chronostar-dev-s-documentation">
-<h1>Welcome to chronostar-dev’s documentation!<a class="headerlink" href="#welcome-to-chronostar-dev-s-documentation" title="Permalink to this heading">#</a></h1>
-<p><strong>Chronostar</strong> is a Python library for discovering and/or characterising
-unbound stellar associations (aka “moving groups”) and their members using
-features such as kinematics, age markers, chemical composition. The code
-can be found on <a class="reference external" href="https://github.com/mikeireland/chronostar/">github</a>.</p>
-<p>These docs will sketch out the structure of the next generation of Chronostar
-code.</p>
-<p>The goal of Chronostar is to be a flexible framework for fitting Gaussian
-Mixture Models to astronomical data. This will be achieved by utilising
-“injected dependencies”. The <a class="reference internal" href="driverguide.html#driver-guide"><span class="std std-ref">driver</span></a> is composed of a collection
-of classes (e.g. ComponentModel, BackgroundModel, ModelFit) for which
-Chronostar provides many implementations of. Anyone wishing to modify
-aspects of Chronostar (e.g. input data, fitting method, models of
-components) simply needs to provide the <a class="reference internal" href="driverguide.html#driver-guide"><span class="std std-ref">driver</span></a> with their own
-class that matches the required interface, whether that be by writing
-the class from scratch, or by using inheritance to extend pre-existing
-classes.</p>
-<p>Turns out fitting Gaussian Mixture Models is quite complex, so a lot of
-the design will be shamelessly <em>inspired</em> by
-<a class="reference external" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html">scikit-learn</a>.</p>
-<p>Select members of the chronostar development team may view and modify a
-<a class="reference external" href="https://docs.google.com/drawings/d/17wZQVIBfof91lPKZWbGgBINZ8BsEbOVlWe1dcx11Foc/edit?usp=sharing">graphical outline of the chronostar pipeline</a>.</p>
-<p>Check out the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> section for further information, including how
-to <a class="reference internal" href="usage.html#installation"><span class="std std-ref">install</span></a> the project.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This project is under active development</p>
-</div>
+          <div class="section" id="introducer-guide">
+<h1>Introducer Guide<a class="headerlink" href="#introducer-guide" title="Permalink to this heading">#</a></h1>
+<p>An Introducer takes one (or more) previous model fit(s) and determines multiple plausible locations to introduce another <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code>. The inserter communicates all plausible locations by returning a set of independent initial conditions.</p>
+<p>A simple example would be: take a previous fit, for each component generate a new set of initial conditions by replacing the target component by two components of identical current day mean and initial covariance matrix, but with differing ages (i.e. how Crundall et al. (2019) introduced components).</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#chronostar-installation">Chronostar Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#performing-a-fit">Performing a fit</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="driverguide.html">Driver Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="driverguide.html#example-driver-usage">Example Driver usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="driverguide.html#proposed-driver-implementation">Proposed Driver implementation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="icpoolguide.html">Initial Conditions Pool Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/icpool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/icpool/simpleicpool.html">SimpleICPool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="icpoolguide.html#example-simpleicpool-usage">Example SimpleICPool Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="icpoolguide.html#suggested-simpleicpool-implementation">Suggested SimpleICPool implementation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="introducerguide.html">Introducer Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/introducer/baseintroducer.html">BaseIntroudcer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introducerguide.html#example-simpleintroducer-usage">Example SimpleIntroducer Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introducerguide.html#suggested-simpleintroducer-implementation">Suggested SimpleIntroducer implementation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api/introducer/baseintroducer.html">BaseIntroudcer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
 </div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/componentmixture.html">ComponentMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
-</ul>
+<div class="section" id="example-simpleintroducer-usage">
+<h2>Example SimpleIntroducer Usage<a class="headerlink" href="#example-simpleintroducer-usage" title="Permalink to this heading">#</a></h2>
+<p>A simple usage will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">one_comp_model</span>        <span class="c1"># Assume we have fit a one-component model</span>
+<span class="n">prev_best_score</span> <span class="o">=</span> <span class="n">one_comp_model</span><span class="o">.</span><span class="n">score</span>
+
+<span class="c1"># Unclear if this needs to be a class. Perhaps a function is sufficient...</span>
+<span class="n">introducer</span> <span class="o">=</span> <span class="n">SimpleIntroducer</span><span class="p">()</span>
+
+<span class="c1"># loop until our score worsens</span>
+<span class="k">while</span> <span class="n">best_score</span> <span class="o">&gt;</span> <span class="n">prev_best_score</span><span class="p">:</span>
+    <span class="c1"># Produce the next generation and loop over them</span>
+    <span class="k">for</span> <span class="n">next_init_cond</span> <span class="ow">in</span> <span class="n">introducer</span><span class="o">.</span><span class="n">next_gen</span><span class="p">(</span><span class="n">best_model</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">config_pars</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">_set_parameters</span><span class="p">(</span><span class="n">next_init_cond</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">prev_best_score</span><span class="p">:</span>
+            <span class="n">best_model</span> <span class="o">=</span> <span class="n">m</span>
+            <span class="n">best_score</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">score</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO: decide if <cite>Introducer</cite> must be a class, or if a stand-alone function is sufficient. For now I’ll perserver with a class in case encapsulating a “state” yields benefits. At the very least, a class design might be necessary to allow consistency checks between selected class variants. For example we might need to check the chosen introduction method is compatible with the intended <span class="xref std std-ref">component model</span>.</p>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+<div class="section" id="suggested-simpleintroducer-implementation">
+<h2>Suggested SimpleIntroducer implementation<a class="headerlink" href="#suggested-simpleintroducer-implementation" title="Permalink to this heading">#</a></h2>
+<p>A <em>serial</em> ICG implementation could look a little like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InitialConditionsGenerator</span><span class="p">():</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ComponentClass</span><span class="p">,</span> <span class="n">InsertionApproach</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">component_class</span> <span class="o">=</span> <span class="n">ComponentClass</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">insertion_approach</span> <span class="o">=</span> <span class="n">InsertionApproach</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">initial_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="n">best_model</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">prev_best_score</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">while</span> <span class="n">prev_best_score</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">best_score</span> <span class="o">&gt;</span> <span class="n">prev_best_score</span><span class="p">:</span>
+      <span class="n">prev_best_score</span> <span class="o">=</span> <span class="n">best_score</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">registry</span> <span class="o">=</span> <span class="p">{}</span>
+
+      <span class="c1"># Loop over the next generation of initial conditions</span>
+      <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">init_conditions</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">insertion_approach</span><span class="o">.</span><span class="n">next_gen</span><span class="p">(</span><span class="n">best_model</span><span class="p">)):</span>
+        <span class="k">yield</span> <span class="n">ix</span><span class="p">,</span> <span class="n">init_conditions</span>
+
+      <span class="c1"># Once all initial conditions are provided, look for best one in registry</span>
+      <span class="n">best_model</span><span class="p">,</span> <span class="n">best_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+      <span class="c1"># Using best fit, repeat until score ceases to improve</span>
+
+  <span class="k">def</span> <span class="nf">register_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">score</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
         </article>
@@ -295,16 +288,26 @@ to <a class="reference internal" href="usage.html#installation"><span class="std
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="usage.html">
+          <a class="next-page" href="api/introducer/baseintroducer.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Usage</div>
+                <div class="title">BaseIntroudcer</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          
+          <a class="prev-page" href="api/icpool/simpleicpool.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">SimpleICPool</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -337,10 +340,11 @@ to <a class="reference internal" href="usage.html#installation"><span class="std
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Welcome to chronostar-dev’s documentation!</a><ul>
+<li><a class="reference internal" href="#">Introducer Guide</a><ul>
+<li><a class="reference internal" href="#example-simpleintroducer-usage">Example SimpleIntroducer Usage</a></li>
+<li><a class="reference internal" href="#suggested-simpleintroducer-implementation">Suggested SimpleIntroducer implementation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
           </div>

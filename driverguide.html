@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Uncertainty Finder" href="uncertaintyfinder.html" /><link rel="prev" title="Usage" href="usage.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Driver" href="api/driver.html" /><link rel="prev" title="Usage" href="usage.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>Driver - chronostar-dev 2.0 documentation</title>
+        <title>Driver Guide - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -156,11 +156,24 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Driver</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Driver Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="icpoolguide.html">Initial Conditions Pool Guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/icpool/baseicpool.html">BaseICPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/icpool/simpleicpool.html">SimpleICPool</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="introducerguide.html">Introducer Guide</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/introducer/baseintroducer.html">BaseIntroudcer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialconditionspool/initialconditionsgenerator.html">Simple IC Pool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mixture/componentmixture.html">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
@@ -198,70 +211,19 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="driver">
-<h1>Driver<a class="headerlink" href="#driver" title="Permalink to this heading">#</a></h1>
+          <div class="section" id="driver-guide">
+<h1>Driver Guide<a class="headerlink" href="#driver-guide" title="Permalink to this heading">#</a></h1>
 <p>Manage entire process of fitting a model to data. This includes parsing the config file, initialising provided modules/classes, handle any mpi pool setup, set up logging, and perform fit until convergence is signalled.</p>
-<p>The interface is defined as follows:</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="Driver">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Driver</span></span><a class="headerlink" href="#Driver" title="Permalink to this definition">#</a></dt>
-<dd><p>The top level driver that manages the overall fit to data, accounting for
-high-level parameters, such as number of components. It also (ideally) will
-handle the management of MPIPool processes.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Driver.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icg_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertaintyfinder_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Driver.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Initialise a Driver objects</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config_file</strong> (<em>str</em>) – A yaml file that contains the configuration parameters for <cite>Driver</cite> and all the other classes.</p></li>
-<li><p><strong>component_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="component/basecomponent.html#BaseComponent" title="BaseComponent"><em>BaseComponent</em></a><em>)</em>) – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
-<li><p><strong>model_class</strong> (<em>subclass</em><em>(</em><em>sklearn.mixture.BaseMixture</em><em>)</em>) – A Class that either inherits from BaseModel or matches the interface exactly. This Class encapsulates the parameterisation of the entire model as well as it’s fitting method.</p></li>
-<li><p><strong>icg_class</strong> (<em>subclass</em><em>(</em><em>BaseICG</em><em>)</em>) – A Class that either inherits from BaseICG or matches the interface exactly. This Class manages the generation of the <cite>model_class</cite>’s initial conditions.</p></li>
-<li><p><strong>inserter_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="inserter/baseinserter.html#BaseInserter" title="BaseInserter"><em>BaseInserter</em></a><em>)</em>) – A Class that either inherits from BaseInserter or matches the interface exactly. This Class handles the initialisation of the next set of models. For example, if we have just fit a collection of models with N components, <cite>inserter_class</cite> will generate a set of initial conditions for <cite>N+1</cite> components.</p></li>
-<li><p><strong>uncertaintyfinder_class</strong> (<em>sublcass</em><em>(</em><em>BaseUncertaintyFinder</em><em>)</em>) – A Class that either inherits from BaseUncertaintyFinder or matches the interface exactly. Once the final best fit is found, this Class explores the parameter space and returns uncertanties for each of the best fit parameters.</p></li>
+<p>The interface is defined in <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a>.</p>
+<p>The main loop of <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a> will get initial conditions from <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>, initialise a <a class="reference internal" href="mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object, run the <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.fit()</span></code> method, report the score of the fit to <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> and track the best fit seen so far. The main loop continues until <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> ceases to yield initial conditions. The final fit is the best fit seen so far.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/driver.html">Driver</a></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Driver.example_attr">
-<span class="sig-name descname"><span class="pre">example_attr</span></span><a class="headerlink" href="#Driver.example_attr" title="Permalink to this definition">#</a></dt>
-<dd><p>An example attribute</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>array-like of shape (n_components,)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Driver.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Driver.run" title="Permalink to this definition">#</a></dt>
-<dd><p>Run the entire fit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – The data the model will fit to. In order to align with sklearn, I propose an array with shape <code class="docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">nfeatures)</span></code>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Best model with best fit parameters and uncertainties, and membership probabilities.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple(model_class, list, array-like of shape (n_samples, n_features))</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>There is only one place where <code class="docutils literal notranslate"><span class="pre">sklearn.mixture.BaseMixture</span></code> expects input data (<code class="docutils literal notranslate"><span class="pre">X</span></code>) to have a <code class="docutils literal notranslate"><span class="pre">shape</span></code> attribute, so this could be worked around if desired, however I propose to simplify our problem so that it matches <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> design exactly, and then we can branch out from there.</p>
 </div>
-<div class="section" id="example-usage">
-<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h2>
+<div class="section" id="example-driver-usage">
+<h2>Example Driver usage<a class="headerlink" href="#example-driver-usage" title="Permalink to this heading">#</a></h2>
 <p>A rough usage could look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chronostar.driver</span> <span class="kn">import</span> <span class="n">Driver</span>
 <span class="kn">from</span> <span class="nn">chronostar.component</span> <span class="kn">import</span> <span class="n">SphereComponent</span>
@@ -283,16 +245,20 @@ handle the management of MPIPool processes.</p>
 </pre></div>
 </div>
 <p>Note that we pass classes (and not objects) to the driver when initialising it.
-This is an example of <em>dependency injection</em> and has the consequence that Driver
+This is an example of <a class="reference external" href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a> and has the consequence that Driver
 doesn’t need to know any specifics about the SphereComponent, the Driver only
-expects the SphereComponent to adhere to a prescribed interface. This interface can be defined either as a “protocol” or by requiring all <code class="docutils literal notranslate"><span class="pre">Component</span></code> classes to inherit from the abstract <code class="docutils literal notranslate"><span class="pre">BaseComponent</span></code></p>
+expects the SphereComponent to adhere to a prescribed interface. This interface can be defined either as a “protocol” or by requiring all <code class="docutils literal notranslate"><span class="pre">Component</span></code> classes to inherit from the abstract <code class="docutils literal notranslate"><span class="pre">BaseComponent</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dependency injection seems to be more about injecting objects and not classes. So this section will need to be updated as I explore the implementation further.</p>
+</div>
 <p>This provides maximal flexibility and extensibility, as anyone can write their
 own component class or model class, and substitute this class into their own
 script.</p>
 </div>
-<div class="section" id="proposed-implementation">
-<h2>Proposed implementation<a class="headerlink" href="#proposed-implementation" title="Permalink to this heading">#</a></h2>
-<p>A rough implementation of <cite>driver</cite> could look like this:</p>
+<div class="section" id="proposed-driver-implementation">
+<h2>Proposed Driver implementation<a class="headerlink" href="#proposed-driver-implementation" title="Permalink to this heading">#</a></h2>
+<p>A rough implementation of <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a> could look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Driver</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -342,12 +308,12 @@ script.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="uncertaintyfinder.html">
+          <a class="next-page" href="api/driver.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Uncertainty Finder</div>
+                <div class="title">Driver</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -394,9 +360,9 @@ script.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Driver</a><ul>
-<li><a class="reference internal" href="#example-usage">Example usage</a></li>
-<li><a class="reference internal" href="#proposed-implementation">Proposed implementation</a></li>
+<li><a class="reference internal" href="#">Driver Guide</a><ul>
+<li><a class="reference internal" href="#example-driver-usage">Example Driver usage</a></li>
+<li><a class="reference internal" href="#proposed-driver-implementation">Proposed Driver implementation</a></li>
 </ul>
 </li>
 </ul>

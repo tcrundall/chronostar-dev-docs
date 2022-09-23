@@ -154,13 +154,26 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../driver.html">Driver</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../driverguide.html">Driver Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/driver.html">Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../icpoolguide.html">Initial Conditions Pool Guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/icpool/baseicpool.html">BaseICPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/icpool/simpleicpool.html">SimpleICPool</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introducerguide.html">Introducer Guide</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/introducer/baseintroducer.html">BaseIntroudcer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/baseicpool.html">BaseICPool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../initialconditionspool/initialconditionsgenerator.html">Simple IC Pool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../inserter/baseinserter.html">BaseInserter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basemixture.html">ChronBaseMixture</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ComponentMixture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
@@ -202,7 +215,7 @@
 <h1>ComponentMixture<a class="headerlink" href="#componentmixture" title="Permalink to this heading">#</a></h1>
 <p>Ideally extends the
 <a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py">BaseMixture class from sklearn</a>.</p>
-<p>I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="../initialconditionspool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
+<p>I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="../api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
 <p>To achieve first the <strong>minimal working example</strong>, I propose disregarding data uncertainties completely. RV’s are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV’s are too large for Chronostar to successfully fit in it’s current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.</p>
 <p>If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider fixing the age at 0. In this case we could use <cite>sklearn.mixture.GaussianMixture</cite> out of the box. There is no parameter exploration needed, because the maximisation step calculates the mean and covariance from the “assigned members” (a.k.a. samples of responsibility(?)).</p>
 <p><cite>AgedGaussianMixture</cite> introduces a free age parameter for each of its components. The key remaining <strong>dependent</strong> parameters of a component are <span class="math notranslate nohighlight">\(\mu_0\)</span> and <span class="math notranslate nohighlight">\(\Sigma_0\)</span>. <span class="math notranslate nohighlight">\(\mu_0\)</span> is constrained completely by the age and data, since we just project <span class="math notranslate nohighlight">\(\mu\)</span> back in time by <span class="math notranslate nohighlight">\(t\)</span>. <span class="math notranslate nohighlight">\(\Sigma_0\)</span> is less apparent, but with some assumptions can be equally constrained. We get <span class="math notranslate nohighlight">\(\Sigma\)</span> from the assigned members. We project this back in time by <span class="math notranslate nohighlight">\(t\)</span> using a Jacobian. We now have a <span class="math notranslate nohighlight">\(~\Sigma_0\)</span>. The final step is to impose the core assumptions of a Component - that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class. E.g. for the <code class="xref py py-class docutils literal notranslate"><span class="pre">SphereComponent</span></code> we assume spherical in position space and spherical in velocity space. Therefore in this case we can derive <span class="math notranslate nohighlight">\(\Sigma_0\)</span> by finding the total space-volume of <span class="math notranslate nohighlight">\(~\Sigma_0\)</span> and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.</p>
@@ -271,6 +284,11 @@ methods.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ComponentMixture._initialize_parameters">
+<span class="sig-name descname"><span class="pre">_initialize_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ComponentMixture._initialize_parameters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="ComponentMixture._estimate_log_prob">
 <span class="sig-name descname"><span class="pre">_estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ComponentMixture._estimate_log_prob" title="Permalink to this definition">#</a></dt>

@@ -3,8 +3,8 @@ Usage
 
 .. _installation:
 
-Installation
-------------
+Chronostar Installation
+-----------------------
 
 To use Chronostar, first clone from the `github repo <https://github.com/mikeireland/chronostar/>`_.
 
