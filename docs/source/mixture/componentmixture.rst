@@ -84,6 +84,9 @@ If we ignore data uncertainties, the age is the only free parameter in the maxim
    :type verbose_interval: int, default=10
 
 
+   .. method:: _initialize_parameters
+
+
    .. method:: _estimate_log_prob(X)
 
       Estimate the log probability of each sample for each component. The components stored in :attr:`components` determine how the estimation is calculated.
