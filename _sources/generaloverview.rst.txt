@@ -26,7 +26,9 @@ Lets explore how the `ICPool` cultivates this pool of initial conditions and det
 
 Lets focus now on how a Mixture Model fits itself to the data. We acknowledge the expert craftspersonship of `sklearn.mixture.GaussianMixture` and so our Mixture Models follow their interface closely, with our example implementation even inheriting from `sklearn.mixture.BaseMixture`. Our Mixture Model expects the inputdata to be array-like of floats. The Mixture Model runs an Expectation-Maximization (EM) algorithm on the data and its list of Components. The interesting parts of the EM algorithm (how the various features in the data is interpreted, how the Component parameters are maximized) are delegated to the Components themselves. The Mixture Model handles only the boring, tedious, delicate business of membership probabilities and EM convergence. It is unlikely the user will need to write their own Mixture Model.
 
-The Component class is where the most variation will likely appear. The Component implementation determines what features we're fitting to, and how we find the best parameters.
+The Component class is where the most variation will likely appear. The Component implementation determines what features we're fitting to, and how we find the best parameters. If you want age dependency, you got it. If you want ``emcee``, you got it. If you want Nelder-Mead, you got it. If you want a flat background component, you got it. If you want a background component that just reads off a column in the input data, you got it. If you want your stars to have uncertainties and correlations stored in the input data which you can use to constract star covariance matrices, you got it. If you want to propogate through time with galpy, epicyclic, or just a straight bloody line, you got it.
+
+As long as the data has the columns your Component expects, your Component can do whatever it likes, independent on the entirety of the rest of Chronostar.
 
 .. note::
   TODO: Finish this section...
