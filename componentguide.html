@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Driver Guide" href="driverguide.html" /><link rel="prev" title="Welcome to chronostar-dev’s documentation!" href="index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="BaseComponent" href="api/component/basecomponent.html" /><link rel="prev" title="ComponentMixture" href="api/mixture/componentmixture.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>Usage - chronostar-dev 2.0 documentation</title>
+        <title>Component Guide - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,7 +155,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="driverguide.html">Driver Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
 </ul>
@@ -175,7 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/mixture/componentmixture.html">ComponentMixture</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Component Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
@@ -218,37 +218,71 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
-<div class="section" id="chronostar-installation">
-<span id="installation"></span><h2>Chronostar Installation<a class="headerlink" href="#chronostar-installation" title="Permalink to this heading">#</a></h2>
-<p>To use Chronostar, first clone from the <a class="reference external" href="https://github.com/mikeireland/chronostar/">github repo</a>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/mikeireland/chronostar/
+          <div class="section" id="component-guide">
+<h1>Component Guide<a class="headerlink" href="#component-guide" title="Permalink to this heading">#</a></h1>
+<p>Ideally extends the
+<a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py">BaseMixture class from sklearn</a>.</p>
+<p>I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
+<p>If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider fixing the age at 0. In this case we could use <cite>sklearn.mixture.GaussianMixture</cite> out of the box. There is no parameter exploration needed, because the maximisation step calculates the mean and covariance from the “assigned members” (a.k.a. samples of responsibility(?)).</p>
+<p><cite>AgedGaussianMixture</cite> introduces a free age parameter for each of its components. The key remaining <strong>dependent</strong> parameters of a component are <span class="math notranslate nohighlight">\(\mu_0\)</span> and <span class="math notranslate nohighlight">\(\Sigma_0\)</span>. <span class="math notranslate nohighlight">\(\mu_0\)</span> is constrained completely by the age and data, since we just project <span class="math notranslate nohighlight">\(\mu\)</span> back in time by <span class="math notranslate nohighlight">\(t\)</span>. <span class="math notranslate nohighlight">\(\Sigma_0\)</span> is less apparent, but with some assumptions can be equally constrained. We get <span class="math notranslate nohighlight">\(\Sigma\)</span> from the assigned members. We project this back in time by <span class="math notranslate nohighlight">\(t\)</span> using a Jacobian. We now have a <span class="math notranslate nohighlight">\(~\Sigma_0\)</span>. The final step is to impose the core assumptions of a Component - that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class. E.g. for the <code class="xref py py-class docutils literal notranslate"><span class="pre">SphereComponent</span></code> we assume spherical in position space and spherical in velocity space. Therefore in this case we can derive <span class="math notranslate nohighlight">\(\Sigma_0\)</span> by finding the total space-volume of <span class="math notranslate nohighlight">\(~\Sigma_0\)</span> and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above paragraph probably belongs in the Component documentation.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The BaseMixture class expects the input data to be a single array of shape
+<code class="docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">nfeatures)</span></code>. This therefore doesn’t allow for the
+pre-construction of star covariance matrices. The typical usage also
+doesn’t expect uncertainties in the data, however this is customizable.</p>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
+</ul>
+</div>
+<div class="section" id="example-component-usage">
+<h2>Example Component Usage<a class="headerlink" href="#example-component-usage" title="Permalink to this heading">#</a></h2>
+<p>A simple usage will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
+<span class="c1"># initial conditions is a list of Component objects with pars set sensibly</span>
+<span class="n">inital_conditions</span> <span class="o">=</span> <span class="n">get_some_valid_initial_conditions</span><span class="p">(</span><span class="n">ComponentClass</span><span class="p">)</span>
+
+<span class="c1"># config params is a dictionary</span>
+<span class="n">config_params</span> <span class="o">=</span> <span class="n">read_relevant_config_params</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+
+<span class="c1"># data is array-like of shape (n_samples, n_features)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">read_in_preprocessed_data</span>
+
+<span class="c1"># Note: the Component objects know how to interpret the data</span>
+
+<span class="c1"># Initialse model, and fit to data</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">ComponentMixture</span><span class="p">(</span><span class="o">**</span><span class="n">config_params</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">initial_conditions</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Then do more things</p>
 </div>
-<div class="section" id="performing-a-fit">
-<h2>Performing a fit<a class="headerlink" href="#performing-a-fit" title="Permalink to this heading">#</a></h2>
-<p>This is some placeholder documentation…. To perform a fit to data, you can use the
-<code class="docutils literal notranslate"><span class="pre">chronostar.fitfitter.fitfit()</span></code> function:</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="chronostar.fitfitter.fitfit">
-<span class="sig-prename descclassname"><span class="pre">chronostar.fitfitter.</span></span><span class="sig-name descname"><span class="pre">fitfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chronostar.fitfitter.fitfit" title="Permalink to this definition">#</a></dt>
-<dd><p>Gets the best fit to the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>astropy.table.Table</em><em> or </em><em>None</em>) – Optional input “data”.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The best fit</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[Component]</p>
-</dd>
-</dl>
-</dd></dl>
+<div class="section" id="suggested-component-implementation">
+<h2>Suggested Component implementation<a class="headerlink" href="#suggested-component-implementation" title="Permalink to this heading">#</a></h2>
+<p>The bulk of the implementation is within sklearn’s BaseMixture. The key abstract methods that ComponentMixture must implement are <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture.set_params" title="ComponentMixture.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.set_params()</span></code></a> and <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture_estimate_log_prob()</span></code>.</p>
+<p>These could be done as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">components</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">components</span>
 
+<span class="k">def</span> <span class="nf">_estimate_log_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+  <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">n_components</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+
+  <span class="n">log_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_components</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+    <span class="n">log_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">log_probs</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -257,23 +291,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="driverguide.html">
+          <a class="next-page" href="api/component/basecomponent.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Driver Guide</div>
+                <div class="title">BaseComponent</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="api/mixture/componentmixture.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">ComponentMixture</div>
                 
               </div>
             </a>
@@ -309,9 +343,9 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Usage</a><ul>
-<li><a class="reference internal" href="#chronostar-installation">Chronostar Installation</a></li>
-<li><a class="reference internal" href="#performing-a-fit">Performing a fit</a></li>
+<li><a class="reference internal" href="#">Component Guide</a><ul>
+<li><a class="reference internal" href="#example-component-usage">Example Component Usage</a></li>
+<li><a class="reference internal" href="#suggested-component-implementation">Suggested Component implementation</a></li>
 </ul>
 </li>
 </ul>
@@ -329,5 +363,6 @@
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

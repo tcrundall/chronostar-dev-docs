@@ -40,7 +40,7 @@ to :ref:`install <installation>` the project.
    This project is under active development
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
    :caption: Contents:
    :glob:
 
@@ -48,6 +48,8 @@ to :ref:`install <installation>` the project.
    driverguide
    icpoolguide
    introducerguide
+   mixtureguide
+   componentguide
 
 .. toctree::
    :maxdepth: 2
@@ -55,8 +57,6 @@ to :ref:`install <installation>` the project.
    :glob:
 
    uncertaintyfinder
-   mixture/*
-   component/*
    background/*
 
 

@@ -40,7 +40,7 @@ A simple usage will look something like this::
 
 
 .. note::
-  TODO: decide if `Introducer` must be a class, or if a stand-alone function is sufficient. For now I'll perserver with a class in case encapsulating a "state" yields benefits. At the very least, a class design might be necessary to allow consistency checks between selected class variants. For example we might need to check the chosen introduction method is compatible with the intended :ref:`component model <componentguide>`.
+  TODO: decide if `Introducer` must be a class, or if a stand-alone function is sufficient. For now I'll perserver with a class in case encapsulating a "state" yields benefits. At the very least, a class design might be necessary to allow consistency checks between selected class variants. For example we might need to check the chosen introduction method is compatible with the intended :ref:`component model<component guide>`.
 
 Suggested SimpleIntroducer implementation
 -----------------------------------------

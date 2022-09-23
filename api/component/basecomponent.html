@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="SimpleICPool" href="simpleicpool.html" /><link rel="prev" title="Initial Conditions Pool Guide" href="../../icpoolguide.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="SpaceTimeComponent" href="spacetimecomponent.html" /><link rel="prev" title="Component Guide" href="../../componentguide.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>BaseICPool - chronostar-dev 2.0 documentation</title>
+        <title>BaseComponent - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -160,9 +160,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../driver.html">Driver</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../../icpoolguide.html">Initial Conditions Pool Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">BaseICPool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simpleicpool.html">SimpleICPool</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../icpoolguide.html">Initial Conditions Pool Guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../icpool/baseicpool.html">BaseICPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../icpool/simpleicpool.html">SimpleICPool</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../introducerguide.html">Introducer Guide</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -175,9 +175,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../mixture/componentmixture.html">ComponentMixture</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../component/spacetimecomponent.html">SpaceTimeComponent</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../../componentguide.html">Component Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
 </ul>
@@ -218,65 +218,33 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="baseicpool">
-<h1>BaseICPool<a class="headerlink" href="#baseicpool" title="Permalink to this heading">#</a></h1>
-<p>The abstract base class for initial conditions pool objects.
-These objects manage a pool of initial conditions which <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code> uses to initialise a fit.</p>
+          <div class="section" id="basecomponent">
+<h1>BaseComponent<a class="headerlink" href="#basecomponent" title="Permalink to this heading">#</a></h1>
+<p>Abstract base class for Components. These objects serve as building blocks of a <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMixture</span></code>. A Component encapsulates its parameterisation and log probability estimation of samples. A Component will ideally map onto real stellar associations.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="BaseICPool">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BaseICPool</span></span><a class="headerlink" href="#BaseICPool" title="Permalink to this definition">#</a></dt>
-<dd><p>A pool (or priority queue?) of initial conditions that can be used to initialise model fits.</p>
-<p>Calling <a class="reference internal" href="#BaseICPool.pool" title="BaseICPool.pool"><code class="xref py py-func docutils literal notranslate"><span class="pre">pool()</span></code></a> returns an iterator that can be iterated over, yielding a set of initial conditions. By registering the result of each fit with the <a class="reference internal" href="#BaseICPool.register_result" title="BaseICPool.register_result"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_result()</span></code></a>, ICPool can use this information to generate the next set of initial conditions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>component_class</strong> – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
-<li><p><strong>inserter_class</strong> – A Class that either inherits from BaseInserter or matches the interface exactly. This Class handles the initialisation of the next set of models. For example, if we have just fit a collection of models with N components, <cite>inserter_class</cite> will generate a set of initial conditions for <cite>N+1</cite> components.</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="BaseComponent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BaseComponent</span></span><a class="headerlink" href="#BaseComponent" title="Permalink to this definition">#</a></dt>
+<dd><p>An abstract class that describes a single, time-dependent component of a mixture model.</p>
+<p>A Component Class is responsible for calculating its loss given a set of data points and responsibilities.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="BaseICPool.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BaseICPool.__init__" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="BaseComponent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseComponent.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Constructor method</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="BaseICPool.registry">
-<span class="sig-name descname"><span class="pre">registry</span></span><a class="headerlink" href="#BaseICPool.registry" title="Permalink to this definition">#</a></dt>
-<dd><p>A record of best models and associated scores from fits initialised with conditions generated by this class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>dict[key, tuple[Model, float]]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py" id="BaseICPool.pool">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseICPool.pool" title="Permalink to this definition">#</a></dt>
-<dd><p>Produce a pool of initial conditions that can be iterated over, yielding the next most promising initial conditions, along with a unique identifier.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A generator that can be iterated over, yielding the next most promising initial conditions.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>generator</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="BaseICPool.register_result">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BaseICPool.register_result" title="Permalink to this definition">#</a></dt>
-<dd><p>Once a fit has converged, use this method to register its resulting model and score.</p>
+<dt class="sig sig-object py" id="BaseComponent.estimate_log_prob">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BaseComponent.estimate_log_prob" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate the log probability of each sample given the component. If the component is a simple Gaussian, this method would evaluate the Gaussian at the position of the sample. The features and how a component interprets them are unrestricted. Age, chemical composition etc. can all be in the feature, and this method determines how the component treats them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>unique_id</strong> (<em>int</em>) – the id that was generated along with a set of initial conditions.</p></li>
-<li><p><strong>model</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – the best fitting model corresponding to a set of initial conditions</p></li>
-<li><p><strong>score</strong> (<em>float</em>) – the score of the best fit model</p></li>
-</ul>
+<dd class="field-odd"><p><strong>X</strong> – Input data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>log probabilities of each sample</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Array-like(n_samples)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -290,23 +258,23 @@ These objects manage a pool of initial conditions which <code class="xref py py-
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="simpleicpool.html">
+          <a class="next-page" href="spacetimecomponent.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">SimpleICPool</div>
+                <div class="title">SpaceTimeComponent</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../../icpoolguide.html">
+          <a class="prev-page" href="../../componentguide.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Initial Conditions Pool Guide</div>
+                <div class="title">Component Guide</div>
                 
               </div>
             </a>

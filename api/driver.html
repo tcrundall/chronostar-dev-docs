@@ -170,13 +170,20 @@
 <li class="toctree-l2"><a class="reference internal" href="introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../mixtureguide.html">Mixture Guide</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="mixture/chronbasemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixture/componentmixture.html">ComponentMixture</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component/spacetimecomponent.html">SpaceTimeComponent</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../mixture/componentmixture.html">ComponentMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../background/basebackground.html">BaseBackground</a></li>
 </ul>
 
@@ -229,7 +236,7 @@ handle the management of MPIPool processes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config_file</strong> (<em>str</em>) – A yaml file that contains the configuration parameters for <cite>Driver</cite> and all the other classes.</p></li>
-<li><p><strong>component_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><em>BaseComponent</em></a><em>)</em>) – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
+<li><p><strong>component_class</strong> (<em>subclass</em><em>(</em><a class="reference internal" href="component/basecomponent.html#BaseComponent" title="BaseComponent"><em>BaseComponent</em></a><em>)</em>) – A Class that either inherits from BaseComponent or matches the interface. This Class encapsulates the parametrisation of a single component.</p></li>
 <li><p><strong>model_class</strong> (<em>subclass</em><em>(</em><em>sklearn.mixture.BaseMixture</em><em>)</em>) – A Class that either inherits from BaseModel or matches the interface exactly. This Class encapsulates the parameterisation of the entire model as well as it’s fitting method.</p></li>
 <li><p><strong>icg_class</strong> (<em>subclass</em><em>(</em><em>BaseICG</em><em>)</em>) – A Class that either inherits from BaseICG or matches the interface exactly. This Class manages the generation of the <cite>model_class</cite>’s initial conditions.</p></li>
 <li><p><strong>inserter_class</strong> (<em>subclass</em><em>(</em><em>BaseInserter</em><em>)</em>) – A Class that either inherits from BaseInserter or matches the interface exactly. This Class handles the initialisation of the next set of models. For example, if we have just fit a collection of models with N components, <cite>inserter_class</cite> will generate a set of initial conditions for <cite>N+1</cite> components.</p></li>

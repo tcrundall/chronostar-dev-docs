@@ -2,37 +2,21 @@
 ComponentMixture
 ================
 
-Ideally extends the 
-`BaseMixture class from sklearn <https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py>`_.
-
-I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in :class:`Component` or :class:`BaseICPool`).
-
-To achieve first the **minimal working example**, I propose disregarding data uncertainties completely. RV's are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV's are too large for Chronostar to successfully fit in it's current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.
-
-If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider fixing the age at 0. In this case we could use `sklearn.mixture.GaussianMixture` out of the box. There is no parameter exploration needed, because the maximisation step calculates the mean and covariance from the "assigned members" (a.k.a. samples of responsibility(?)).
-
-`AgedGaussianMixture` introduces a free age parameter for each of its components. The key remaining **dependent** parameters of a component are :math:`\mu_0` and :math:`\Sigma_0`. :math:`\mu_0` is constrained completely by the age and data, since we just project :math:`\mu` back in time by :math:`t`. :math:`\Sigma_0` is less apparent, but with some assumptions can be equally constrained. We get :math:`\Sigma` from the assigned members. We project this back in time by :math:`t` using a Jacobian. We now have a :math:`~\Sigma_0`. The final step is to impose the core assumptions of a Component - that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class. E.g. for the :class:`SphereComponent` we assume spherical in position space and spherical in velocity space. Therefore in this case we can derive :math:`\Sigma_0` by finding the total space-volume of :math:`~\Sigma_0` and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.
-
-.. note::
-   The above paragraph probably belongs in the Component documentation.
-
-.. note::
-   The BaseMixture class expects the input data to be a single array of shape 
-   ``(nsamples, nfeatures)``. This therefore doesn't allow for the 
-   pre-construction of star covariance matrices. The typical usage also 
-   doesn't expect uncertainties in the data, however this is customizable.
-
-
 .. class:: ComponentMixture(n_components=1, *, covariance_type='full', tol=0.001, reg_covar=1e-06, max_iter=100, n_init=1, init_params='kmeans', weights_init=None, means_init=None, precisions_init=None, random_state=None, warm_start=False, verbose=0, verbose_interval=10)
 
-   This class both models and fits a Gaussian Mixture Model with time
-   dependence. Since the EM algorithm is mighty complicated, we elect 
+   This class mixes both the :class:`sklearn.mixture.BaseMixture` and :class:`ChronBaseMixture`.
+
+   This class both models and fits an arbitaray Mixture Model with the 
+   Expectation Maximisation (EM)
+   algorithm. Since the EM algorithm is mighty complicated, we elect 
    to follow the design laid out by :class:`sklearn.mixture.BaseMixture`.
    
    BaseMixture is an abstract class, and so we must implement the missing
    methods.
 
    For now I've included all :class:`sklearn.mixture.BaseMixture` parameters, but I expect some are superfluous/incompatible to our needs and will be removed.
+
+   To enable consistent API usage of all :class:`ChronBaseMixture` implementations, the specific configuaration parameters (i.e. those that are passed to __init__) will typically be read from a config file and passed as a dictionary.
 
    .. note::
       To ensure that nothing is hidden behind the scenes, I have dumped all the :class:`sklearn.mixture.GaussianMixture` parameters here. Certainly not all of them are required, and I'll whittle the list down over time.
@@ -84,7 +68,15 @@ If we ignore data uncertainties, the age is the only free parameter in the maxim
    :type verbose_interval: int, default=10
 
 
-   .. method:: _initialize_parameters
+   .. method:: set_params(components)
+
+      :param components: List of component objects (i.e. as provided by :class:`SimpleIntroducer`)
+      :type components: List[subclass(:class:`BaseComponent` and :class:`BaseBackground`)]
+
+      Set the initial parameters of the mixture model.
+
+      :return: None
+      :rtype: NoneType
 
 
    .. method:: _estimate_log_prob(X)

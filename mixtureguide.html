@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Driver Guide" href="driverguide.html" /><link rel="prev" title="Welcome to chronostar-dev’s documentation!" href="index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="ChronBaseMixture" href="api/mixture/chronbasemixture.html" /><link rel="prev" title="SimpleIntroducer" href="api/introducer/simpleintroducer.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
-        <title>Usage - chronostar-dev 2.0 documentation</title>
+        <title>Mixture Guide - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,7 +155,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="driverguide.html">Driver Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/driver.html">Driver</a></li>
 </ul>
@@ -170,7 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="mixtureguide.html">Mixture Guide</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Mixture Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/mixture/chronbasemixture.html">ChronBaseMixture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mixture/componentmixture.html">ComponentMixture</a></li>
 </ul>
@@ -218,37 +218,72 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
-<div class="section" id="chronostar-installation">
-<span id="installation"></span><h2>Chronostar Installation<a class="headerlink" href="#chronostar-installation" title="Permalink to this heading">#</a></h2>
-<p>To use Chronostar, first clone from the <a class="reference external" href="https://github.com/mikeireland/chronostar/">github repo</a>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/mikeireland/chronostar/
+          <div class="section" id="mixture-guide">
+<h1>Mixture Guide<a class="headerlink" href="#mixture-guide" title="Permalink to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/mixture/chronbasemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/mixture/componentmixture.html">ComponentMixture</a></li>
+</ul>
+</div>
+<p>Chronostar’s <a class="reference internal" href="api/mixture/componentmixture.html#componentmixture"><span class="std std-ref">Mixture Models</span></a> will match the interface of <a class="reference external" href="https://scikit-learn.org/stable/modules/mixture.html#gmm">scikit-learn’s mixture models</a> as closely as possible, with the default mixture model <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> even inheriting from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator">sklearn.mixture.BaseMixture</a>. For reference of a class that inherits from BaseMixture, see <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html#sklearn.mixture.GaussianMixture">sklearn.mixture.GaussianMixture</a>.</p>
+<p>I predict there will only need to be one implementation of this class, as customisation of data features, component features, fitting approaches and overall model extensions can be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
+<p>Our Mixture Models will be a linear combination of components, fit to an input data array of shape <cite>(n_samples, n_features)</cite> where a “sample” is a single star (or can be treated as such, e.g. a combined binary) and a feature is any data we’re trying to fit to (position, velocity, magnitude, apparent-magnitude, abundances, inferred-age, etc.). The Mixture Model will remain completely agnostic of the features being fit. The implementation of how features are fit to is left to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> class.</p>
+<p>This linear combination of components can include background components. In fact, this is the only (intended) means of including information about the background. The implementation of the background components is completely arbitrary. For example, it could be a single flat distribution, or a collection of fixed 6D Gaussians, or a collection of free 6D Gaussians that are fit alongside components intended for <em>stellar associations</em>.</p>
+<p>Conceivably, if users wish to replicate Crundall et al. (2019)’s treatment of the background, one could precompute background log likelihoods, store them in the input data array, and have a background component that simply retrieves that column of data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The precise interface will likely need to be tweaked as the first implementation is written, however I expect implementation specific configuration parameters will be passed through the chronostar framework as a dictionary read from a config file (see <a class="reference internal" href="driverguide.html#driver-guide"><span class="std std-ref">Driver Guide</span></a>) to the Mixture class’s constructor method. Therefore, despite my intentions to only implement a Mixture Class that inherits from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator">sklearn.mixture.BaseMixture</a>, I will ensure the interface remains simple and allows for alternate implementations. To ensure a clear interface I will write an abstract base class <a class="reference internal" href="api/mixture/chronbasemixture.html#ChronBaseMixture" title="ChronBaseMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChronBaseMixture</span></code></a> which all mixtures will inherit from.</p>
+</div>
+<div class="section" id="data-treatment">
+<h2>Data treatment<a class="headerlink" href="#data-treatment" title="Permalink to this heading">#</a></h2>
+<p>To achieve first the <strong>minimal working example</strong>, I propose disregarding data uncertainties completely. RV’s are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV’s are too large for Chronostar to successfully fit in it’s current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.</p>
+</div>
+<div class="section" id="example-mixture-usage">
+<h2>Example Mixture Usage<a class="headerlink" href="#example-mixture-usage" title="Permalink to this heading">#</a></h2>
+<p>A simple usage will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
+<span class="c1"># initial conditions is a list of Component objects with pars set sensibly</span>
+<span class="n">inital_conditions</span> <span class="o">=</span> <span class="n">get_some_valid_initial_conditions</span><span class="p">(</span><span class="n">ComponentClass</span><span class="p">)</span>
+
+<span class="c1"># config params is a dictionary</span>
+<span class="n">config_params</span> <span class="o">=</span> <span class="n">read_relevant_config_params</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+
+<span class="c1"># data is array-like of shape (n_samples, n_features)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">read_in_preprocessed_data</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+
+<span class="c1"># Note: the Component objects know how to interpret the data</span>
+
+<span class="c1"># Initialse model, and fit to data</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">ComponentMixture</span><span class="p">(</span><span class="o">**</span><span class="n">config_params</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">initial_conditions</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Then do more things</p>
 </div>
-<div class="section" id="performing-a-fit">
-<h2>Performing a fit<a class="headerlink" href="#performing-a-fit" title="Permalink to this heading">#</a></h2>
-<p>This is some placeholder documentation…. To perform a fit to data, you can use the
-<code class="docutils literal notranslate"><span class="pre">chronostar.fitfitter.fitfit()</span></code> function:</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="chronostar.fitfitter.fitfit">
-<span class="sig-prename descclassname"><span class="pre">chronostar.fitfitter.</span></span><span class="sig-name descname"><span class="pre">fitfit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chronostar.fitfitter.fitfit" title="Permalink to this definition">#</a></dt>
-<dd><p>Gets the best fit to the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>astropy.table.Table</em><em> or </em><em>None</em>) – Optional input “data”.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The best fit</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[Component]</p>
-</dd>
-</dl>
-</dd></dl>
+<div class="section" id="suggested-componentmixture-implementation">
+<h2>Suggested ComponentMixture implementation<a class="headerlink" href="#suggested-componentmixture-implementation" title="Permalink to this heading">#</a></h2>
+<p>The bulk of the implementation is within sklearn’s BaseMixture. The key abstract methods that ComponentMixture must implement are <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture.set_params" title="ComponentMixture.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.set_params()</span></code></a> and <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture_estimate_log_prob()</span></code>.</p>
+<p>These could be done as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">components</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">components</span>
 
+<span class="k">def</span> <span class="nf">_estimate_log_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+  <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">n_components</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+
+  <span class="n">log_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_components</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+    <span class="n">log_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">log_probs</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are some other abstract methods of <cite>BaseMixture</cite> that would need to be implemented, but from what I can see these will be trivial.</p>
+</div>
 </div>
 </div>
 
@@ -257,23 +292,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="driverguide.html">
+          <a class="next-page" href="api/mixture/chronbasemixture.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Driver Guide</div>
+                <div class="title">ChronBaseMixture</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="api/introducer/simpleintroducer.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">SimpleIntroducer</div>
                 
               </div>
             </a>
@@ -309,9 +344,10 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Usage</a><ul>
-<li><a class="reference internal" href="#chronostar-installation">Chronostar Installation</a></li>
-<li><a class="reference internal" href="#performing-a-fit">Performing a fit</a></li>
+<li><a class="reference internal" href="#">Mixture Guide</a><ul>
+<li><a class="reference internal" href="#data-treatment">Data treatment</a></li>
+<li><a class="reference internal" href="#example-mixture-usage">Example Mixture Usage</a></li>
+<li><a class="reference internal" href="#suggested-componentmixture-implementation">Suggested ComponentMixture implementation</a></li>
 </ul>
 </li>
 </ul>

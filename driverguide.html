@@ -170,13 +170,20 @@
 <li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mixtureguide.html">Mixture Guide</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/mixture/chronbasemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mixture/componentmixture.html">ComponentMixture</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/componentmixture.html">ComponentMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
@@ -215,7 +222,7 @@
 <h1>Driver Guide<a class="headerlink" href="#driver-guide" title="Permalink to this heading">#</a></h1>
 <p>Manage entire process of fitting a model to data. This includes parsing the config file, initialising provided modules/classes, handle any mpi pool setup, set up logging, and perform fit until convergence is signalled.</p>
 <p>The interface is defined in <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a>.</p>
-<p>The main loop of <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a> will get initial conditions from <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>, initialise a <a class="reference internal" href="mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object, run the <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.fit()</span></code> method, report the score of the fit to <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> and track the best fit seen so far. The main loop continues until <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> ceases to yield initial conditions. The final fit is the best fit seen so far.</p>
+<p>The main loop of <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a> will get initial conditions from <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>, initialise a <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object, run the <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.fit()</span></code> method, report the score of the fit to <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> and track the best fit seen so far. The main loop continues until <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> ceases to yield initial conditions. The final fit is the best fit seen so far.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">API:</span></p>
 <ul>

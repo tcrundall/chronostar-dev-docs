@@ -170,13 +170,20 @@
 <li class="toctree-l2"><a class="reference internal" href="api/introducer/simpleintroducer.html">SimpleIntroducer</a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mixtureguide.html">Mixture Guide</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/mixture/chronbasemixture.html">ChronBaseMixture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mixture/componentmixture.html">ComponentMixture</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/basemixture.html">ChronBaseMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixture/componentmixture.html">ComponentMixture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="component/basecomponent.html">BaseComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
@@ -214,7 +221,7 @@
           <div class="section" id="initial-conditions-pool-guide">
 <h1>Initial Conditions Pool Guide<a class="headerlink" href="#initial-conditions-pool-guide" title="Permalink to this heading">#</a></h1>
 <p>An Initial Conditions Pool manages a pool of initial conditions which could be
-used to initialise a <a class="reference internal" href="mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object. An IC Pool yields
+used to initialise a <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object. An IC Pool yields
 initial conditions to another object (e.g. <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a>) and expects a fit
 to be performed, and the score to be registered with the IC Pool. Using a fit
 and score registry, the IC Pool can keep the pool populated with reasonable
