@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -230,19 +230,17 @@ code.</p>
 Mixture Models to astronomical data. This will be achieved by utilising
 “injected dependencies”. The <a class="reference internal" href="driverguide.html#driver-guide"><span class="std std-ref">driver</span></a> is composed of a collection
 of classes (e.g. ComponentModel, BackgroundModel, ModelFit) for which
-Chronostar provides many implementations of. Anyone wishing to modify
+Chronostar provides many implementations. Anyone wishing to modify
 aspects of Chronostar (e.g. input data, fitting method, models of
 components) simply needs to provide the <a class="reference internal" href="driverguide.html#driver-guide"><span class="std std-ref">driver</span></a> with their own
 class that matches the required interface, whether that be by writing
 the class from scratch, or by using inheritance to extend pre-existing
 classes.</p>
-<p>Turns out fitting Gaussian Mixture Models is quite complex, so a lot of
+<p>It turns out fitting Gaussian Mixture Models is quite complex, so a lot of
 the design will be shamelessly <em>inspired</em> by
 <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html">scikit-learn</a>.</p>
 <p>Select members of the chronostar development team may view and modify a
 <a class="reference external" href="https://docs.google.com/drawings/d/17wZQVIBfof91lPKZWbGgBINZ8BsEbOVlWe1dcx11Foc/edit?usp=sharing">graphical outline of the chronostar pipeline</a>.</p>
-<p>Check out the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> section for further information, including how
-to <a class="reference internal" href="usage.html#installation"><span class="std std-ref">install</span></a> the project.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This project is under active development</p>
@@ -262,7 +260,6 @@ to <a class="reference internal" href="usage.html#installation"><span class="std
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 </div>
 </div>

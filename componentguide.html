@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Component Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -220,67 +220,74 @@
         <article role="main">
           <div class="section" id="component-guide">
 <h1>Component Guide<a class="headerlink" href="#component-guide" title="Permalink to this heading">#</a></h1>
-<p>Ideally extends the
-<a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_base.py">BaseMixture class from sklearn</a>.</p>
-<p>I predict there will only need to be one implementation of this class, as the feature and fitting customisation will be done elsewhere (i.e. in <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code> or <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a>).</p>
-<p>If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider fixing the age at 0. In this case we could use <cite>sklearn.mixture.GaussianMixture</cite> out of the box. There is no parameter exploration needed, because the maximisation step calculates the mean and covariance from the “assigned members” (a.k.a. samples of responsibility(?)).</p>
-<p><cite>AgedGaussianMixture</cite> introduces a free age parameter for each of its components. The key remaining <strong>dependent</strong> parameters of a component are <span class="math notranslate nohighlight">\(\mu_0\)</span> and <span class="math notranslate nohighlight">\(\Sigma_0\)</span>. <span class="math notranslate nohighlight">\(\mu_0\)</span> is constrained completely by the age and data, since we just project <span class="math notranslate nohighlight">\(\mu\)</span> back in time by <span class="math notranslate nohighlight">\(t\)</span>. <span class="math notranslate nohighlight">\(\Sigma_0\)</span> is less apparent, but with some assumptions can be equally constrained. We get <span class="math notranslate nohighlight">\(\Sigma\)</span> from the assigned members. We project this back in time by <span class="math notranslate nohighlight">\(t\)</span> using a Jacobian. We now have a <span class="math notranslate nohighlight">\(~\Sigma_0\)</span>. The final step is to impose the core assumptions of a Component - that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class. E.g. for the <code class="xref py py-class docutils literal notranslate"><span class="pre">SphereComponent</span></code> we assume spherical in position space and spherical in velocity space. Therefore in this case we can derive <span class="math notranslate nohighlight">\(\Sigma_0\)</span> by finding the total space-volume of <span class="math notranslate nohighlight">\(~\Sigma_0\)</span> and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The above paragraph probably belongs in the Component documentation.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The BaseMixture class expects the input data to be a single array of shape
-<code class="docutils literal notranslate"><span class="pre">(nsamples,</span> <span class="pre">nfeatures)</span></code>. This therefore doesn’t allow for the
-pre-construction of star covariance matrices. The typical usage also
-doesn’t expect uncertainties in the data, however this is customizable.</p>
-</div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </div>
-<div class="section" id="example-component-usage">
-<h2>Example Component Usage<a class="headerlink" href="#example-component-usage" title="Permalink to this heading">#</a></h2>
+<p>A Component object encapsulates the current estimated parameters and the methods required to fit to data.</p>
+<p>For example, a <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent" title="SpaceTimeComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeComponent</span></code></a> would store its weight (a.k.a. amplitude), age, initial mean and initial covariance matrix. It would also have methods for calculating the log probability of stars <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent.estimate_log_prob" title="SpaceTimeComponent.estimate_log_prob"><code class="xref py py-func docutils literal notranslate"><span class="pre">estimate_log_prob()</span></code></a> and fitting its parameters <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent.maximize" title="SpaceTimeComponent.maximize"><code class="xref py py-func docutils literal notranslate"><span class="pre">maximize()</span></code></a>. It also has an <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent._project_orbit" title="SpaceTimeComponent._project_orbit"><code class="xref py py-func docutils literal notranslate"><span class="pre">_project_orbit()</span></code></a> method for calculating orbits. If a user wishes to use a custom orbit method, they could write a new class that inherits form <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent" title="SpaceTimeComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeComponent</span></code></a> and override the <code class="xref py py-func docutils literal notranslate"><span class="pre">_project_orbit()</span></code> method.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The intention is to not differentiate between <em>Background</em> components and <em>stellar association</em> components. The difference will be implicit in the components’ parameterization and fitting method. For example, an association component could have an age parameter, where as a background component would have none. Some other methods could be employed such as enforcing a large minimum position spread for background components and a small minimum position spread for association components. If one wishes to get fancy, one could choose to implement a <a class="reference internal" href="api/introducer/baseintroducer.html#BaseIntroducer" title="BaseIntroducer"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseIntroducer</span></code></a> which can convert background components to association components and vica verse, based on some “failure” criteria.</p>
+</div>
+<div class="section" id="age-fitting-with-a-twist">
+<h2>Age fitting with a twist<a class="headerlink" href="#age-fitting-with-a-twist" title="Permalink to this heading">#</a></h2>
+<p>In this section I explain how we can implement a Component class that reproduce the same fitting power of Paper I and II components, but with only one free parameter (age), thereby drastically simplifying (and hence speeding up) parameter maximization.</p>
+<p>If we ignore data uncertainties, the age is the only free parameter in the maximisation step. To explain this further, consider no age parameter (or equivalently fixing the age at 0). In this case we could use <cite>sklearn.mixture.GaussianMixture</cite> out of the box. There is no parameter exploration needed, because the maximisation step estimates the mean <span class="math notranslate nohighlight">\(\mu_c'\)</span> and covariance <span class="math notranslate nohighlight">\(\Sigma_c'\)</span> through dot products and element-wise arithematic. I use <span class="math notranslate nohighlight">\('\)</span> to denote values calculated or infered from the data without any parameter maximization.</p>
+<p><a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent" title="SpaceTimeComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeComponent</span></code></a> introduces a free age parameter <span class="math notranslate nohighlight">\(t\)</span> to a component. Lets say we go ahead and calculate <span class="math notranslate nohighlight">\(\mu_c'\)</span> and <span class="math notranslate nohighlight">\(\Sigma_c'\)</span> like above. The key remaining <strong>time dependent</strong> parameters of a component are its initial mean <span class="math notranslate nohighlight">\(\mu_0\)</span> and initial covariance matrix <span class="math notranslate nohighlight">\(\Sigma_0\)</span>. <span class="math notranslate nohighlight">\(\mu_0\)</span> is constrained completely by the age and data, since we just project <span class="math notranslate nohighlight">\(\mu_c'\)</span> back in time by <span class="math notranslate nohighlight">\(t\)</span>. From similar logic, <span class="math notranslate nohighlight">\(\mu_c\)</span> is constrained completely by the data and <span class="math notranslate nohighlight">\(\mu_c = \mu_c'\)</span>. <span class="math notranslate nohighlight">\(\Sigma_0\)</span> is less apparent, but with some assumptions can be equally constrained. We have <span class="math notranslate nohighlight">\(\Sigma_c'\)</span> from the assigned members. We project this back in time by <span class="math notranslate nohighlight">\(t\)</span> (e.g. by using a Jacobian). We now have a <span class="math notranslate nohighlight">\(\Sigma_0'\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\Sigma_0'\)</span> cannot actually represent the origin of an association, because it may have position-velocity correlations imprinted by the time projection that are unrealistic for an unbound stellar association.</p>
+<p>Therefore the penultimate step is to impose the core assumptions of a Component - e.g. that there is no positional-velocity correlation - and impose assumptions specific to the chosen component class - e.g. the <code class="xref py py-class docutils literal notranslate"><span class="pre">SphereComponent</span></code> assumes spherical in position space and spherical in velocity space. Therefore in this case we can derive <span class="math notranslate nohighlight">\(\Sigma_0\)</span> by finding the total space-volume of <span class="math notranslate nohighlight">\(\Sigma_0'\)</span> and inferring the required radius of an equal volume sphere in position space. With similar treatment we can derive the radius in velocity space.</p>
+<p>The final step would be to project <span class="math notranslate nohighlight">\(\Sigma_0\)</span> forward by <span class="math notranslate nohighlight">\(t\)</span> to attain <span class="math notranslate nohighlight">\(\Sigma_c\)</span>, a covariance matrix centred on <span class="math notranslate nohighlight">\(\mu_c\)</span>, that matches the extent and shape of <span class="math notranslate nohighlight">\(\Sigma_c'\)</span> as closely as possible, but with the appropriate position-velocity correlations imprinted by <span class="math notranslate nohighlight">\(t\)</span> Myrs of unbound dispersal through the Galaxy. In relevant log probability calculations, <a class="reference internal" href="api/component/spacetimecomponent.html#SpaceTimeComponent" title="SpaceTimeComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeComponent</span></code></a> would use <span class="math notranslate nohighlight">\(\mu_c\)</span> and <span class="math notranslate nohighlight">\(\Sigma_c\)</span>.</p>
+<p>Hence, <span class="math notranslate nohighlight">\(\mu_0\)</span> and <span class="math notranslate nohighlight">\(\Sigma_0\)</span> are constrained completely by the data and by the age parameter <span class="math notranslate nohighlight">\(t\)</span>. Therefore, any parameter exploration or maximisation approach need only explore one (easily charecterisable) parameter.</p>
+</div>
+<div class="section" id="example-spacetimecomponent-usage">
+<h2>Example SpaceTimeComponent Usage<a class="headerlink" href="#example-spacetimecomponent-usage" title="Permalink to this heading">#</a></h2>
 <p>A simple usage will look something like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
-<span class="c1"># initial conditions is a list of Component objects with pars set sensibly</span>
-<span class="n">inital_conditions</span> <span class="o">=</span> <span class="n">get_some_valid_initial_conditions</span><span class="p">(</span><span class="n">ComponentClass</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">resp</span> <span class="o">=</span> <span class="c1"># ... assume we have responsibilities (i.e. Z or membership probabilites)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="c1"># ... assume we have data, array-like with shape (n_samples, n_features)</span>
+<span class="n">config_params</span> <span class="o">=</span> <span class="c1"># ... assume we have Component specific config params, e.g. which feature is in which column</span>
 
-<span class="c1"># config params is a dictionary</span>
-<span class="n">config_params</span> <span class="o">=</span> <span class="n">read_relevant_config_params</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
-
-<span class="c1"># data is array-like of shape (n_samples, n_features)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">read_in_preprocessed_data</span>
-
-<span class="c1"># Note: the Component objects know how to interpret the data</span>
-
-<span class="c1"># Initialse model, and fit to data</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">ComponentMixture</span><span class="p">(</span><span class="o">**</span><span class="n">config_params</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">initial_conditions</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SpaceTimeComponent</span><span class="p">(</span><span class="n">config_params</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+<span class="n">log_probs</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>work out when (and why) <cite>log_resp</cite> is used vs <cite>resp</cite>.</p>
 </div>
-<div class="section" id="suggested-component-implementation">
-<h2>Suggested Component implementation<a class="headerlink" href="#suggested-component-implementation" title="Permalink to this heading">#</a></h2>
-<p>The bulk of the implementation is within sklearn’s BaseMixture. The key abstract methods that ComponentMixture must implement are <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture.set_params" title="ComponentMixture.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture.set_params()</span></code></a> and <code class="xref py py-func docutils literal notranslate"><span class="pre">ComponentMixture_estimate_log_prob()</span></code>.</p>
+</div>
+<div class="section" id="suggested-spacecomponent-implementation">
+<h2>Suggested SpaceComponent implementation<a class="headerlink" href="#suggested-spacecomponent-implementation" title="Permalink to this heading">#</a></h2>
+<p>This would effectively be the same as some of the calculation in <cite>sklearn.mixture.GaussianMixture</cite>. The difference is they store weights, means and covariances in the Mixture object itself, and use a module level function to maximize these parameters from the data. In a <a class="reference internal" href="api/component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> implementation, each component tracks its own weight, means and covariances, and uses its own method to maximize the parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Perhaps <cite>weight</cite> should be stored in the <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMixture</span></code> implementation…</p>
+</div>
 <p>These could be done as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">components</span><span class="p">):</span>
-  <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">components</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">maximize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">log_resp</span><span class="p">):</span>
+  <span class="n">resp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_resp</span><span class="p">)</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+  <span class="n">diff</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">resp</span> <span class="o">*</span> <span class="n">diff</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">diff</span><span class="p">)</span> <span class="o">/</span> <span class="n">nk</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">prec_chol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_precision_cholesky</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>sklearn.mixture.GaussianMixture</cite> uses the cholesky decomposition of precisions. A precision is the inverse of covariance. For simplicity I duplicate their calcualtions here.</p>
+</div>
+<p>Estimating the log probability of each sample would be calculated by evaluating the Gaussain at the point of sample:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+  <span class="n">log_det</span> <span class="o">=</span> <span class="n">_compute_log_det_cholesky</span><span class="p">(</span><span class="n">precisions_chol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_estimate_log_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-  <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-  <span class="n">n_components</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
-
-  <span class="n">log_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_components</span><span class="p">))</span>
-  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
-    <span class="n">log_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-
-  <span class="k">return</span> <span class="n">log_probs</span>
+  <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prec_chol</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">prec_chol</span><span class="p">)</span>
+  <span class="n">log_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="n">log_prob</span><span class="p">)</span> <span class="o">+</span> <span class="n">log_det</span>
 </pre></div>
 </div>
 </div>
@@ -344,8 +351,9 @@ doesn’t expect uncertainties in the data, however this is customizable.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Component Guide</a><ul>
-<li><a class="reference internal" href="#example-component-usage">Example Component Usage</a></li>
-<li><a class="reference internal" href="#suggested-component-implementation">Suggested Component implementation</a></li>
+<li><a class="reference internal" href="#age-fitting-with-a-twist">Age fitting with a twist</a></li>
+<li><a class="reference internal" href="#example-spacetimecomponent-usage">Example SpaceTimeComponent Usage</a></li>
+<li><a class="reference internal" href="#suggested-spacecomponent-implementation">Suggested SpaceComponent implementation</a></li>
 </ul>
 </li>
 </ul>

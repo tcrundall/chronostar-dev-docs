@@ -27,6 +27,11 @@ Data treatment
 
 To achieve first the **minimal working example**, I propose disregarding data uncertainties completely. RV's are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV's are too large for Chronostar to successfully fit in it's current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.
 
+Note that this framework can still accommodate data uncertainties. The uncertainties (and correlations) would be just another feature column and it will be up to the Component to interpet correctly.
+
+.. note::
+  Intepreting uncertainties and correlations at the component level will lead to repeated calculations (e.g. constructing a covariance matrix each time) however I deem this a worthy trade off for the simplicity and flexibility of the framework as a whole. Especially since the covariance reconstruction will likely occur alongside some expensive parameter exploration method.
+
 Example Mixture Usage
 ---------------------
 
@@ -69,6 +74,14 @@ These could be done as follows::
       log_probs[:, k] = component.estimate_log_prob(X)
     
     return log_probs
+
+  def _m_step(self, X, log_resp):
+    for component in self.components:
+      # X is the data, log_resp is log of responsibilities (a.k.a. mebership probs, a.k.a. Z)
+      component.maximize(X, log_resp)
+
+.. note::
+  TODO: Confirm that responsibilities are indeed exactly membership probabilites. There might be a chance responsibilities aren't normalised to sum to 1 for each sample. `Sci-kit's docs <https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_gaussian_mixture.py#L740>`_ use "responsiblity" and "posterior probability" as synonyms.
 
 .. note::
   There are some other abstract methods of `BaseMixture` that would need to be implemented, but from what I can see these will be trivial.

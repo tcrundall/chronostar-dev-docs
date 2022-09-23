@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="SpaceTimeComponent" href="spacetimecomponent.html" /><link rel="prev" title="Component Guide" href="../../componentguide.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="SpaceComponent" href="spacecomponent.html" /><link rel="prev" title="Component Guide" href="../../componentguide.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
         <title>BaseComponent - chronostar-dev 2.0 documentation</title>
@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../../componentguide.html">Component Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -249,6 +249,20 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="BaseComponent.maximize">
+<span class="sig-name descname"><span class="pre">maximize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_resp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#BaseComponent.maximize" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the best parameters given data <cite>X</cite> and log responsibilities (or membership probabilities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data</p></li>
+<li><p><strong>log_resp</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>)</em>) – Log of posterior probabilities of the point of each sample in <cite>X</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -258,12 +272,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="spacetimecomponent.html">
+          <a class="next-page" href="spacecomponent.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">SpaceTimeComponent</div>
+                <div class="title">SpaceComponent</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

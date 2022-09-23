@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -239,6 +239,11 @@
 <div class="section" id="data-treatment">
 <h2>Data treatment<a class="headerlink" href="#data-treatment" title="Permalink to this heading">#</a></h2>
 <p>To achieve first the <strong>minimal working example</strong>, I propose disregarding data uncertainties completely. RV’s are pretty good (compared to the occupied velocity volumn of associations), and datasets with no RV’s are too large for Chronostar to successfully fit in it’s current implementation anyway. By disregarding data uncertainties, the parameter space to be explored for each (traditional) component is restricted to one dimension only, the age.</p>
+<p>Note that this framework can still accommodate data uncertainties. The uncertainties (and correlations) would be just another feature column and it will be up to the Component to interpet correctly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Intepreting uncertainties and correlations at the component level will lead to repeated calculations (e.g. constructing a covariance matrix each time) however I deem this a worthy trade off for the simplicity and flexibility of the framework as a whole. Especially since the covariance reconstruction will likely occur alongside some expensive parameter exploration method.</p>
+</div>
 </div>
 <div class="section" id="example-mixture-usage">
 <h2>Example Mixture Usage<a class="headerlink" href="#example-mixture-usage" title="Permalink to this heading">#</a></h2>
@@ -278,7 +283,16 @@
     <span class="n">log_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">estimate_log_prob</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
   <span class="k">return</span> <span class="n">log_probs</span>
+
+<span class="k">def</span> <span class="nf">_m_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">log_resp</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+    <span class="c1"># X is the data, log_resp is log of responsibilities (a.k.a. mebership probs, a.k.a. Z)</span>
+    <span class="n">component</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">log_resp</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO: Confirm that responsibilities are indeed exactly membership probabilites. There might be a chance responsibilities aren’t normalised to sum to 1 for each sample. <a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/36958fb240fbe435673a9e3c52e769f01f36bec0/sklearn/mixture/_gaussian_mixture.py#L740">Sci-kit’s docs</a> use “responsiblity” and “posterior probability” as synonyms.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

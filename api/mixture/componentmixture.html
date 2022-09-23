@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -282,7 +282,7 @@ methods.</p>
 <span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ComponentMixture.set_params" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>components</strong> (List[subclass(<a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> and <a class="reference internal" href="../../background/basebackground.html#BaseBackground" title="BaseBackground"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBackground</span></code></a>)]) – List of component objects (i.e. as provided by <a class="reference internal" href="../introducer/simpleintroducer.html#SimpleIntroducer" title="SimpleIntroducer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleIntroducer</span></code></a>)</p>
+<dd class="field-odd"><p><strong>components</strong> (List[subclass(<a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseComponent</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBackground</span></code>)]) – List of component objects (i.e. as provided by <a class="reference internal" href="../introducer/simpleintroducer.html#SimpleIntroducer" title="SimpleIntroducer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleIntroducer</span></code></a>)</p>
 </dd>
 </dl>
 <p>Set the initial parameters of the mixture model.</p>
@@ -327,7 +327,7 @@ methods.</p>
 <dd><p>A list of components (and background components) which retain their current best-fit parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>List[subclass(<a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent">BaseComponent</a>) and/or subclass(<a class="reference internal" href="../../background/basebackground.html#BaseBackground" title="BaseBackground">BaseBackground</a>)]</p>
+<dd class="field-odd"><p>List[subclass(<a class="reference internal" href="../component/basecomponent.html#BaseComponent" title="BaseComponent">BaseComponent</a>) and/or subclass(BaseBackground)]</p>
 </dd>
 </dl>
 </dd></dl>

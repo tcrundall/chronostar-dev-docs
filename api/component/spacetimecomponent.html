@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Uncertainty Finder" href="../../uncertaintyfinder.html" /><link rel="prev" title="BaseComponent" href="basecomponent.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Uncertainty Finder" href="../../uncertaintyfinder.html" /><link rel="prev" title="SpaceComponent" href="spacecomponent.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
         <title>SpaceTimeComponent - chronostar-dev 2.0 documentation</title>
@@ -177,6 +177,7 @@
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../../componentguide.html">Component Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -184,7 +185,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -233,7 +233,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="SpaceTimeComponent.estimate_log_prob">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeComponent.estimate_log_prob" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">estimate_log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeComponent.estimate_log_prob" title="Permalink to this definition">#</a></dt>
 <dd><p>Estimate the log probability of each sample given the component. If the component is a simple Gaussian, this method would evaluate the Gaussian at the position of the sample. The features and how a component interprets them are unrestricted. Age, chemical composition etc. can all be in the feature, and this method determines how the component treats them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -244,6 +244,40 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Array-like(n_samples)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SpaceTimeComponent.maximize">
+<span class="sig-name descname"><span class="pre">maximize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_resp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeComponent.maximize" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the best parameters given data <cite>X</cite> and log responsibilities (or membership probabilities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data</p></li>
+<li><p><strong>log_resp</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>)</em>) – Log of posterior probabilities of the point of each sample in <cite>X</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SpaceTimeComponent._project_orbit">
+<span class="sig-name descname"><span class="pre">_project_orbit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SpaceTimeComponent._project_orbit" title="Permalink to this definition">#</a></dt>
+<dd><p>Project the orbit from starting phase-space position <cite>start_pos</cite> by <cite>time</cite> Myr.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_pos</strong> (<em>array-like of shape</em><em> (</em><em>6</em><em>)</em>) – The starting phase-space position in RHS, LSR-centered, XYZUVW</p></li>
+<li><p><strong>time</strong> (<em>float</em>) – The amount of time in Myr to project orbit. Positive values are forward projection. Negative values are backwards.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Final position of orbit</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like of shape (6)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -266,14 +300,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="basecomponent.html">
+          <a class="prev-page" href="spacecomponent.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">BaseComponent</div>
+                <div class="title">SpaceComponent</div>
                 
               </div>
             </a>

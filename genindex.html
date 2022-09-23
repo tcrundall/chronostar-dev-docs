@@ -176,6 +176,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="componentguide.html">Component Guide</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/component/basecomponent.html">BaseComponent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/component/spacecomponent.html">SpaceComponent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/component/spacetimecomponent.html">SpaceTimeComponent</a></li>
 </ul>
 </li>
@@ -183,7 +184,6 @@
 <p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="uncertaintyfinder.html">Uncertainty Finder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="background/basebackground.html">BaseBackground</a></li>
 </ul>
 
 </div>
@@ -220,17 +220,15 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a></div>
 </section>
 <section id="_" class="genindex-section">
   <h2>_</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="background/basebackground.html#BaseBackground.__init__">__init__() (BaseBackground method)</a>
+        <li><a href="api/component/basecomponent.html#BaseComponent.__init__">__init__() (BaseComponent method)</a>
 
         <ul>
-          <li><a href="api/component/basecomponent.html#BaseComponent.__init__">(BaseComponent method)</a>
-</li>
           <li><a href="api/icpool/baseicpool.html#BaseICPool.__init__">(BaseICPool method)</a>
 </li>
           <li><a href="api/introducer/baseintroducer.html#BaseIntroducer.__init__">(BaseIntroducer method)</a>
@@ -241,12 +239,16 @@
 </li>
           <li><a href="api/introducer/simpleintroducer.html#SimpleIntroducer.__init__">(SimpleIntroducer method)</a>
 </li>
+          <li><a href="api/component/spacecomponent.html#SpaceComponent.__init__">(SpaceComponent method)</a>
+</li>
           <li><a href="api/component/spacetimecomponent.html#SpaceTimeComponent.__init__">(SpaceTimeComponent method)</a>
 </li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/mixture/componentmixture.html#ComponentMixture._estimate_log_prob">_estimate_log_prob() (ComponentMixture method)</a>
+</li>
+        <li><a href="api/component/spacetimecomponent.html#SpaceTimeComponent._project_orbit">_project_orbit() (SpaceTimeComponent method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -256,8 +258,6 @@
   <h2>B</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="background/basebackground.html#BaseBackground">BaseBackground (built-in class)</a>
-</li>
         <li><a href="api/component/basecomponent.html#BaseComponent">BaseComponent (built-in class)</a>
 </li>
         <li><a href="api/icpool/baseicpool.html#BaseICPool">BaseICPool (built-in class)</a>
@@ -314,10 +314,10 @@
   <h2>E</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="background/basebackground.html#BaseBackground.estimate_log_prob">estimate_log_prob() (BaseBackground method)</a>
+        <li><a href="api/component/basecomponent.html#BaseComponent.estimate_log_prob">estimate_log_prob() (BaseComponent method)</a>
 
         <ul>
-          <li><a href="api/component/basecomponent.html#BaseComponent.estimate_log_prob">(BaseComponent method)</a>
+          <li><a href="api/component/spacecomponent.html#SpaceComponent.estimate_log_prob">(SpaceComponent method)</a>
 </li>
           <li><a href="api/component/spacetimecomponent.html#SpaceTimeComponent.estimate_log_prob">(SpaceTimeComponent method)</a>
 </li>
@@ -336,6 +336,22 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/mixture/chronbasemixture.html#ChronBaseMixture.fit">fit() (ChronBaseMixture method)</a>
 </li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/component/basecomponent.html#BaseComponent.maximize">maximize() (BaseComponent method)</a>
+
+        <ul>
+          <li><a href="api/component/spacecomponent.html#SpaceComponent.maximize">(SpaceComponent method)</a>
+</li>
+          <li><a href="api/component/spacetimecomponent.html#SpaceTimeComponent.maximize">(SpaceTimeComponent method)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -402,11 +418,13 @@
           <li><a href="api/mixture/componentmixture.html#ComponentMixture.set_params">(ComponentMixture method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/icpool/simpleicpool.html#SimpleICPool">SimpleICPool (built-in class)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/introducer/simpleintroducer.html#SimpleIntroducer">SimpleIntroducer (built-in class)</a>
+</li>
+        <li><a href="api/component/spacecomponent.html#SpaceComponent">SpaceComponent (built-in class)</a>
 </li>
         <li><a href="api/component/spacetimecomponent.html#SpaceTimeComponent">SpaceTimeComponent (built-in class)</a>
 </li>
