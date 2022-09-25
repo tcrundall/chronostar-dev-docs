@@ -216,18 +216,19 @@
         <article role="main">
           <div class="section" id="initial-conditions-pool-guide">
 <h1>Initial Conditions Pool Guide<a class="headerlink" href="#initial-conditions-pool-guide" title="Permalink to this heading">#</a></h1>
-<p>An Initial Conditions Pool manages a pool of initial conditions which could be
-used to initialise a <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object. An IC Pool yields
+<p>An Initial Conditions Pool manages a pool of sets of initial conditions which could be
+used to initialise a <a class="reference internal" href="api/mixture/componentmixture.html#ComponentMixture" title="ComponentMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMixture</span></code></a> object. A <em>set</em> of initial conditions is
+a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code>s. An IC Pool yields sets of
 initial conditions to another object (e.g. <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a>) and expects a fit
 to be performed, and the score to be registered with the IC Pool. Using a fit
 and score registry, the IC Pool can keep the pool populated with reasonable
-initial conditions for future runs.</p>
-<p>The precise mechanism for how new initial conditions are generated depends on
-the chosen <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseInserter</span></code>.</p>
-<p>I’ve chosen to utilise some fancy python in order to make the IC Pool as general
-and flexible as possible. The <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool.pool" title="BaseICPool.pool"><code class="xref py py-func docutils literal notranslate"><span class="pre">BaseICPool.pool()</span></code></a> method returns a <em>generator</em>
-which can be iterated over.</p>
-<p>A simple implementation <a class="reference internal" href="api/icpool/simpleicpool.html#SimpleICPool" title="SimpleICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleICPool</span></code></a> identifies the best model with <span class="math notranslate nohighlight">\(k\)</span>
+sets of initial conditions for future fits.</p>
+<p>The usage of IC Pool is very general. Objects that access the pool remain ignorant of how many components each set of intial conditions will contain, until the set is yielded. As a consequence, implementations of <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool" title="BaseICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseICPool</span></code></a> are free to increase component counts however they like.</p>
+<p>Furthermore, the design of IC Pool’s interface allows for asynchronous, parallel fits. For example, a multiprocessor <a class="reference internal" href="api/driver.html#Driver" title="Driver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Driver</span></code></a> could iterate over the IC Pool’s pool, passing each set of initial conditions to one of its child processors. These processors perform fits based on these initial conditions and report the score of the copmleted fit back to the IC Pool, upon which they receive their next set of initial conditions. Whenever the IC Pool runs out of sets of initial conditions, it repopulates the pool by combining or extending completed fits.</p>
+<p>To achieve this generality, IC Pool utilises the perhaps unfamiliar <code class="docutils literal notranslate"><span class="pre">yield</span></code> key word in the <a class="reference internal" href="api/icpool/baseicpool.html#BaseICPool.pool" title="BaseICPool.pool"><code class="xref py py-func docutils literal notranslate"><span class="pre">BaseICPool.pool()</span></code></a> method. Calls to this method return a <em>generator</em>
+which can be iterated over, with each iteration providing a new set of initial conditions.</p>
+<p>To aid the explanation I outline a potential concrete example:
+a simple implementation <a class="reference internal" href="api/icpool/simpleicpool.html#SimpleICPool" title="SimpleICPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleICPool</span></code></a> identifies the best model with <span class="math notranslate nohighlight">\(k\)</span>
 components and uses this to generate a set of <span class="math notranslate nohighlight">\(k+1\)</span>-component initial conditions
 (i.e. how original Chronostar did things). <a class="reference internal" href="#example-simpleicpool-usage"><span class="std std-ref">See below</span></a>
 for example usage and implementation.</p>
@@ -248,7 +249,7 @@ fits and combine them to produce a <span class="math notranslate nohighlight">\(
 <div class="section" id="example-simpleicpool-usage">
 <h2>Example SimpleICPool Usage<a class="headerlink" href="#example-simpleicpool-usage" title="Permalink to this heading">#</a></h2>
 <p>The usage will look something like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">icg</span> <span class="o">=</span> <span class="n">InitialConditionsGenerator</span><span class="p">(</span><span class="n">SphereComponent</span><span class="p">,</span> <span class="n">LazyInserter</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">icg</span> <span class="o">=</span> <span class="n">InitialConditionsGenerator</span><span class="p">(</span><span class="n">SphereComponent</span><span class="p">,</span> <span class="n">SimpleIntroducer</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ident</span><span class="p">,</span> <span class="n">init_conds</span> <span class="ow">in</span> <span class="n">icg</span><span class="o">.</span><span class="n">initial_conditions</span><span class="p">():</span>
   <span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">config_params</span><span class="p">)</span>
@@ -271,9 +272,9 @@ completely free.</p>
 <p>A <em>serial</em> ICG implementation could look a little like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InitialConditionsGenerator</span><span class="p">():</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ComponentClass</span><span class="p">,</span> <span class="n">InsertionApproach</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ComponentClass</span><span class="p">,</span> <span class="n">Introducer</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">component_class</span> <span class="o">=</span> <span class="n">ComponentClass</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">insertion_approach</span> <span class="o">=</span> <span class="n">InsertionApproach</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">introducer</span> <span class="o">=</span> <span class="n">Introducer</span><span class="p">()</span>
 
   <span class="k">def</span> <span class="nf">initial_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -285,7 +286,7 @@ completely free.</p>
       <span class="bp">self</span><span class="o">.</span><span class="n">registry</span> <span class="o">=</span> <span class="p">{}</span>
 
       <span class="c1"># Loop over the next generation of initial conditions</span>
-      <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">init_conditions</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">insertion_approach</span><span class="o">.</span><span class="n">next_gen</span><span class="p">(</span><span class="n">best_model</span><span class="p">)):</span>
+      <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">init_conditions</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">introducer</span><span class="o">.</span><span class="n">next_gen</span><span class="p">(</span><span class="n">best_model</span><span class="p">)):</span>
         <span class="k">yield</span> <span class="n">ix</span><span class="p">,</span> <span class="n">init_conditions</span>
 
       <span class="c1"># Once all initial conditions are provided, look for best one in registry</span>
@@ -297,7 +298,6 @@ completely free.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">registry</span><span class="p">[</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Ok, maybe not so simple now… but still a promising approach, I think.</p>
 </div>
 </div>
 
