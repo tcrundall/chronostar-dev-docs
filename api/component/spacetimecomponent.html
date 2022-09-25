@@ -2,9 +2,9 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Uncertainty Finder" href="../../uncertaintyfinder.html" /><link rel="prev" title="SpaceComponent" href="spacecomponent.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="prev" title="SpaceComponent" href="spacecomponent.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.09.15"/>
+    <meta name="generator" content="sphinx-5.2.0.post0, furo 2022.09.15"/>
         <title>SpaceTimeComponent - chronostar-dev 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
@@ -133,7 +133,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -182,10 +182,6 @@
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Lost docs:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../uncertaintyfinder.html">Uncertainty Finder</a></li>
-</ul>
 
 </div>
 </div>
@@ -212,7 +208,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -255,8 +251,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data</p></li>
-<li><p><strong>log_resp</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>)</em>) – Log of posterior probabilities of the point of each sample in <cite>X</cite></p></li>
+<li><p><strong>X</strong> (<em>array-like</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data</p></li>
+<li><p><strong>log_resp</strong> (<em>array-like</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>)</em>) – Log of posterior probabilities of the point of each sample in <cite>X</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -269,7 +265,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start_pos</strong> (<em>array-like of shape</em><em> (</em><em>6</em><em>)</em>) – The starting phase-space position in RHS, LSR-centered, XYZUVW</p></li>
+<li><p><strong>start_pos</strong> (<em>array-like</em><em> of </em><em>shape</em><em> (</em><em>6</em><em>)</em>) – The starting phase-space position in RHS, LSR-centered, XYZUVW</p></li>
 <li><p><strong>time</strong> (<em>float</em>) – The amount of time in Myr to project orbit. Positive values are forward projection. Negative values are backwards.</p></li>
 </ul>
 </dd>
@@ -291,15 +287,7 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../../uncertaintyfinder.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Uncertainty Finder</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
+          
           <a class="prev-page" href="spacecomponent.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -331,8 +319,33 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">SpaceTimeComponent</a><ul>
+<li><a class="reference internal" href="#SpaceTimeComponent"><code class="docutils literal notranslate"><span class="pre">SpaceTimeComponent</span></code></a><ul>
+<li><a class="reference internal" href="#SpaceTimeComponent.__init__"><code class="docutils literal notranslate"><span class="pre">SpaceTimeComponent.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#SpaceTimeComponent.estimate_log_prob"><code class="docutils literal notranslate"><span class="pre">SpaceTimeComponent.estimate_log_prob()</span></code></a></li>
+<li><a class="reference internal" href="#SpaceTimeComponent.maximize"><code class="docutils literal notranslate"><span class="pre">SpaceTimeComponent.maximize()</span></code></a></li>
+<li><a class="reference internal" href="#SpaceTimeComponent._project_orbit"><code class="docutils literal notranslate"><span class="pre">SpaceTimeComponent._project_orbit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -342,6 +355,7 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>
