@@ -2,21 +2,23 @@
 Initial Conditions Pool Guide
 =============================
 
-An Initial Conditions Pool manages a pool of initial conditions which could be
-used to initialise a :class:`ComponentMixture` object. An IC Pool yields 
+An Initial Conditions Pool manages a pool of sets of initial conditions which could be
+used to initialise a :class:`ComponentMixture` object. A *set* of initial conditions is
+a list of :class:`Component`\ s. An IC Pool yields sets of
 initial conditions to another object (e.g. :class:`Driver`) and expects a fit
 to be performed, and the score to be registered with the IC Pool. Using a fit
 and score registry, the IC Pool can keep the pool populated with reasonable
-initial conditions for future runs.
+sets of initial conditions for future fits.
 
-The precise mechanism for how new initial conditions are generated depends on
-the chosen :class:`BaseInserter`.
+The usage of IC Pool is very general. Objects that access the pool remain ignorant of how many components each set of intial conditions will contain, until the set is yielded. As a consequence, implementations of :class:`BaseICPool` are free to increase component counts however they like.
 
-I've chosen to utilise some fancy python in order to make the IC Pool as general
-and flexible as possible. The :func:`BaseICPool.pool` method returns a *generator*
-which can be iterated over.
+Furthermore, the design of IC Pool's interface allows for asynchronous, parallel fits. For example, a multiprocessor :class:`Driver` could iterate over the IC Pool's pool, passing each set of initial conditions to one of its child processors. These processors perform fits based on these initial conditions and report the score of the copmleted fit back to the IC Pool, upon which they receive their next set of initial conditions. Whenever the IC Pool runs out of sets of initial conditions, it repopulates the pool by combining or extending completed fits.
 
-A simple implementation :class:`SimpleICPool` identifies the best model with :math:`k`
+To achieve this generality, IC Pool utilises the perhaps unfamiliar ``yield`` key word in the :func:`BaseICPool.pool` method. Calls to this method return a *generator*
+which can be iterated over, with each iteration providing a new set of initial conditions.
+
+To aid the explanation I outline a potential concrete example:
+a simple implementation :class:`SimpleICPool` identifies the best model with :math:`k`
 components and uses this to generate a set of :math:`k+1`-component initial conditions
 (i.e. how original Chronostar did things). :ref:`See below<Example SimpleICPool Usage>`
 for example usage and implementation.
@@ -40,7 +42,7 @@ Example SimpleICPool Usage
 
 The usage will look something like this::
 
-  icg = InitialConditionsGenerator(SphereComponent, LazyInserter)
+  icg = InitialConditionsGenerator(SphereComponent, SimpleIntroducer)
 
   for ident, init_conds in icg.initial_conditions():
     m = Model(config_params) 
@@ -64,9 +66,9 @@ A *serial* ICG implementation could look a little like this::
   
   class InitialConditionsGenerator():
 
-    def __init__(self, ComponentClass, InsertionApproach):
+    def __init__(self, ComponentClass, Introducer):
       self.component_class = ComponentClass
-      self.insertion_approach = InsertionApproach()
+      self.introducer = Introducer()
 
     def initial_conditions(self):
 
@@ -78,7 +80,7 @@ A *serial* ICG implementation could look a little like this::
         self.registry = {}
 
         # Loop over the next generation of initial conditions
-        for ix, init_conditions in enumerate(self.insertion_approach.next_gen(best_model)):
+        for ix, init_conditions in enumerate(self.introducer.next_gen(best_model)):
           yield ix, init_conditions
 
         # Once all initial conditions are provided, look for best one in registry
@@ -88,6 +90,4 @@ A *serial* ICG implementation could look a little like this::
 
     def register_result(self, ident, model, score):
       self.registry[ident] = (model, score)
-
-Ok, maybe not so simple now... but still a promising approach, I think.
 
