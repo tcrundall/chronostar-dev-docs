@@ -15,8 +15,8 @@ code.
 
 The goal of Chronostar is to be a flexible framework for fitting Gaussian
 Mixture Models to astronomical data. This will be achieved by utilising
-"injected dependencies". The :ref:`driver <driver guide>` is composed of a collection
-of classes (e.g. ComponentModel, BackgroundModel, ModelFit) for which
+"injected dependencies". The :ref:`Driver <driver guide>` is composed of a collection
+of 4 classes (:doc:`ICPool <icpoolguide>`, :doc:`Introducer <introducerguide>`, :doc:`Mixture <mixtureguide>` and :doc:`Component <componentguide>`) for which
 Chronostar provides many implementations. Anyone wishing to modify 
 aspects of Chronostar (e.g. input data, fitting method, models of 
 components) simply needs to provide the :ref:`driver <Driver Guide>` with their own
@@ -51,12 +51,13 @@ Select members of the chronostar development team may view and modify a
    mixtureguide
    componentguide
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Lost docs:
-   :glob:
+..
+   .. toctree::
+      :maxdepth: 2
+      :caption: Lost docs:
+      :glob:
 
-   uncertaintyfinder
+      uncertaintyfinder
 
 
 Indices and tables
