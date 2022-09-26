@@ -46,10 +46,10 @@ Select members of the chronostar development team may view and modify a
 
    generaloverview
    driverguide
-   icpoolguide
-   introducerguide
    mixtureguide
    componentguide
+   icpoolguide
+   introducerguide
 
 ..
    .. toctree::

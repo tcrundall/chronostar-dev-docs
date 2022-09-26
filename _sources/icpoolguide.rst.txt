@@ -18,7 +18,7 @@ To achieve this generality, IC Pool utilises the perhaps unfamiliar ``yield`` ke
 which can be iterated over, with each iteration providing a new set of initial conditions.
 
 To aid the explanation I outline a potential concrete example:
-a simple implementation :class:`SimpleICPool` identifies the best model with :math:`k`
+a simple implementation :class:`SimpleICPool` identifies the best mixture with :math:`k`
 components and uses this to generate a set of :math:`k+1`-component initial conditions
 (i.e. how original Chronostar did things). :ref:`See below<Example SimpleICPool Usage>`
 for example usage and implementation.
@@ -42,19 +42,19 @@ Example SimpleICPool Usage
 
 The usage will look something like this::
 
-  icg = InitialConditionsGenerator(SphereComponent, SimpleIntroducer)
+  icpool = SimpleICPool(SphereComponent, SimpleIntroducer)
 
-  for ident, init_conds in icg.initial_conditions():
-    m = Model(config_params) 
-    m._set_parameters(init_conds)
+  for ident, init_conds in icpool.pool():
+    m = Mixture() 
+    m.set_parameters(init_conds)
     m.fit(data)
-    icg.register_result(ident, m.params, my.bic(data))
+    icpool.register_result(ident, m, m.bic(data))
 
-  # loop will end when icg is no longer able to generate reasonable initial conditions
-  best_model = icg.best_model()
+  # loop will end when icpool is no longer able to generate reasonable initial conditions
+  best_mixture = icpool.get_best_mixture()
 
-See? So elegant. Behind the scenes, the ICPool object is tracking which models 
-performed the best, and therefore which models are the best candidates for 
+See? So elegant. Behind the scenes, the ICPool object is tracking which mixtures 
+performed the best, and therefore which mixtures are the best candidates for 
 further exploration. The ICPool can be as clever or as simple as the user 
 desires. The method of how a new component is introduced is also left 
 completely free.
@@ -62,17 +62,17 @@ completely free.
 Suggested SimpleICPool implementation
 -------------------------------------
 
-A *serial* ICG implementation could look a little like this::
+A *serial* ICPool implementation could look a little like this::
   
-  class InitialConditionsGenerator():
+  class SimpleICPool():
 
-    def __init__(self, ComponentClass, Introducer):
-      self.component_class = ComponentClass
+    def __init__(self, Component, Introducer):
+      self.component_class = Component
       self.introducer = Introducer()
 
     def initial_conditions(self):
 
-      best_model = None
+      best_mixture = None
       prev_best_score = None
       best_score = -np.inf
       while prev_best_score is None or best_score > prev_best_score:
@@ -80,14 +80,19 @@ A *serial* ICG implementation could look a little like this::
         self.registry = {}
 
         # Loop over the next generation of initial conditions
-        for ix, init_conditions in enumerate(self.introducer.next_gen(best_model)):
+        for ix, init_conditions in enumerate(self.introducer.next_gen(best_mixture)):
           yield ix, init_conditions
 
         # Once all initial conditions are provided, look for best one in registry
-        best_model, best_score = max(self.registry.values() key=lambda x: x[1])
+        best_mixture, best_score = max(self.registry.values() key=lambda x: x[1])
 
         # Using best fit, repeat until score ceases to improve
+      
+      self.best_mixture = best_mixture
 
-    def register_result(self, ident, model, score):
-      self.registry[ident] = (model, score)
+    def register_result(self, ident, mixture, score):
+      self.registry[ident] = (mixture, score)
 
+    def get_best_mixture(self):
+      # Maybe should return a deep copy?
+      return self.best_mixture
