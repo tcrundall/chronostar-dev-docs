@@ -47,3 +47,10 @@ These objects manage a pool of initial conditions which :class:`Model` uses to i
         :param score: the score of the best fit model
         :type score: float
 
+    .. method:: get_best_mixture()
+        :abstractmethod:
+
+        Find best mixture from fit history
+
+        :return: A mixture model
+        :rtype: subclass(class:`ChronBaseMixture`)
